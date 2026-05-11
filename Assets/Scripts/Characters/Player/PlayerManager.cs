@@ -19,8 +19,8 @@ public class PlayerManager : MonoBehaviour
     public bool IsGrounded { get; private set; }
     public Vector2 actMove { get; private set; }
 
-    private EDeathState _isDead;
-    public void SetIsDead(EDeathState playerState) => _isDead = playerState;
+    public EDeathState IsDead { get; private set; }
+    public void SetIsDead(EDeathState playerState) => IsDead = playerState;
 
     private bool jumped;
     private float moveSpeed;
@@ -49,7 +49,7 @@ public class PlayerManager : MonoBehaviour
     public void ResetPlayer()
     {
         transform.position = spawnPoint.position;
-        _isDead = EDeathState.Alive;
+        IsDead = EDeathState.Alive;
         CanPlay = true;
         rb.simulated = true;
         GameManager.Instance.VCam.Follow = transform;
@@ -69,6 +69,7 @@ public class PlayerManager : MonoBehaviour
         {
             jumped = true;
             jumpBufferCounter = 0f;
+            coyoteTimeCounter = 0f;
         }
 
         if (inputActionJump.WasReleasedThisFrame()) coyoteTimeCounter = 0;
@@ -81,9 +82,9 @@ public class PlayerManager : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (_isDead == EDeathState.Dead) Destroy(gameObject);
+        if (IsDead == EDeathState.Dead) Destroy(gameObject);
         if (Data == null || !CanPlay) return;
-        if (_isDead == EDeathState.Dying) 
+        if (IsDead == EDeathState.Dying) 
         {
             Debug.Log("Dying in fixedupdate");
             Die();
@@ -94,16 +95,17 @@ public class PlayerManager : MonoBehaviour
         {
             Jump();
             jumped = false;
+            coyoteTimeCounter = 0;
         }
-        if (IsGrounded)
+        if (IsGrounded && rb.linearVelocity.y <= 0.1f)
         {
             rb.gravityScale = 1;
-            coyoteTimeCounter = Data.coyoteTime;
+            if (!jumped) coyoteTimeCounter = Data.coyoteTime;
         }
         else
         {
             coyoteTimeCounter -= Time.fixedDeltaTime;
-            if (rb.linearVelocity.y < 0) MultiplyGravity();
+            if (rb.linearVelocity.y < 0 && coyoteTimeCounter < 0f) MultiplyGravity();
         }
     }
 
@@ -114,12 +116,12 @@ public class PlayerManager : MonoBehaviour
         yield return new WaitForSeconds(2);
         Debug.Log("Fully dead");
 
-        _isDead = EDeathState.Dead;
+        IsDead = EDeathState.Dead;
         ResetPlayer();
     }
     public void Die()
     {
-        _isDead = EDeathState.Dying;
+        IsDead = EDeathState.Dying;
         CanPlay = false;
         Debug.Log("Dying start");
         StartCoroutine(DyingRoutine());
