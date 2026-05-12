@@ -14,23 +14,26 @@ public class PlayerManager : MonoBehaviour
     private InputAction inputActionInteract;
 
     //Player
+    private float moveSpeed;
+    private float coyoteTimeCounter;
     public bool CanPlay { get; private set; }
     public bool IsRunning { get; private set; }
     public bool IsGrounded { get; private set; }
     public Vector2 actMove { get; private set; }
-
     public EDeathState IsDead { get; private set; }
+    public bool jumped { get; private set; }
+    public float jumpBufferCounter { get; private set; }
+    
+    //Setters
     public void SetIsDead(EDeathState playerState) => IsDead = playerState;
-
-    private bool jumped;
-    private float moveSpeed;
-    private float coyoteTimeCounter;
-    private float jumpBufferCounter;
-    private Transform spawnPoint;
+    public void SetJumped(bool jumpedPar) => jumped = jumpedPar;
+    public void SetBufferCounter(float counter) => jumpBufferCounter = counter;
 
     //Components
     [SerializeField] private Rigidbody2D rb;
     [SerializeField] private Transform groundChecker;
+    private AccumulationManager _accumulationManager;
+    private Transform spawnPoint;
 
     private void Awake()
     {
@@ -44,6 +47,7 @@ public class PlayerManager : MonoBehaviour
     {
         spawnPoint = GameObject.FindGameObjectWithTag("SpawnPoint").transform;
         rb = GetComponent<Rigidbody2D>();
+        _accumulationManager = GetComponent<AccumulationManager>();
         ResetPlayer();
     }
     public void ResetPlayer()
@@ -57,6 +61,15 @@ public class PlayerManager : MonoBehaviour
 
 
     private void Update()
+    {
+        CheckCoyoteAndBufferTime();
+        //setting run or walk state and its speed
+        actMove = inputActionMove.ReadValue<Vector2>();
+        IsRunning = inputActionRun.IsPressed() && IsGrounded;
+        moveSpeed = IsRunning ? Data.MaxRunSpeed : Data.MaxWalkSpeed;
+    }
+
+    public void CheckCoyoteAndBufferTime() 
     {
         #region coyoteTime
         if (inputActionJump.WasPressedThisFrame())
@@ -74,10 +87,6 @@ public class PlayerManager : MonoBehaviour
 
         if (inputActionJump.WasReleasedThisFrame()) coyoteTimeCounter = 0;
         #endregion
-        //setting run or walk state and its speed
-        actMove = inputActionMove.ReadValue<Vector2>();
-        IsRunning = inputActionRun.IsPressed() && IsGrounded;
-        moveSpeed = IsRunning ? Data.MaxRunSpeed : Data.MaxWalkSpeed;
     }
 
     private void FixedUpdate()
@@ -91,11 +100,9 @@ public class PlayerManager : MonoBehaviour
         }
         GroundDetector();
         Move();
-        if (jumped)
+        if (jumped && !_accumulationManager.IsAccumulating)
         {
-            Jump();
-            jumped = false;
-            coyoteTimeCounter = 0;
+            Jump(1);
         }
         if (IsGrounded && rb.linearVelocity.y <= 0.1f)
         {
@@ -136,7 +143,12 @@ public class PlayerManager : MonoBehaviour
         rb.AddForce(movement * Vector2.right.normalized);
     }
 
-    private void Jump() => rb.AddForce(Vector2.up.normalized * Data.jumpForce, ForceMode2D.Impulse);
+    public void Jump(float jumpMult) 
+    {
+        rb.AddForce(Vector2.up.normalized * Data.jumpForce * jumpMult, ForceMode2D.Impulse);
+        if (jumped) jumped = false;
+        coyoteTimeCounter = 0;
+    } 
 
     private void GroundDetector() => IsGrounded = Physics2D.OverlapCircle(groundChecker.position, Data.detectionRadius, Data.groundMask);
 

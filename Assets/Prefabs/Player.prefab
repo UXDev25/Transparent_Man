@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 8077687170043678364}
   - component: {fileID: 8222127472316264424}
   - component: {fileID: 2949088264650744905}
+  - component: {fileID: 1159022441030104164}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -210,6 +211,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f0506252eba6fe34fa90022204d69b1b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerAnimation
+--- !u!114 &1159022441030104164
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5467174341074132292}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 99efc36488f826d4d9ec47e204132ba8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AccumulationManager
+  data: {fileID: 11400000, guid: 335ffd0ad30738840a7d1fa3e2eec3c7, type: 2}
 --- !u!1 &9048622306426638654
 GameObject:
   m_ObjectHideFlags: 0
