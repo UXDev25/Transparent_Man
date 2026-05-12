@@ -23,6 +23,6 @@ MonoBehaviour:
   acceleration: 25
   deceleration: 8
   velPower: 6
-  jumpForce: 6
+  jumpForce: 7
   coyoteTime: 0.15
   jumpBufferTime: 0.15
