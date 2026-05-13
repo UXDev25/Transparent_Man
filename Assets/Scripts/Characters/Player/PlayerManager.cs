@@ -16,7 +16,9 @@ public class PlayerManager : MonoBehaviour
     //Player
     private float moveSpeed;
     private float coyoteTimeCounter;
+    private int _lives;
     public bool CanPlay { get; private set; }
+    public bool IsStunned { get; private set; }
     public bool IsRunning { get; private set; }
     public bool IsGrounded { get; private set; }
     public Vector2 actMove { get; private set; }
@@ -45,6 +47,7 @@ public class PlayerManager : MonoBehaviour
 
     void Start()
     {
+        _lives = Data.maxLives;
         spawnPoint = GameObject.FindGameObjectWithTag("SpawnPoint").transform;
         rb = GetComponent<Rigidbody2D>();
         _accumulationManager = GetComponent<AccumulationManager>();
@@ -156,5 +159,19 @@ public class PlayerManager : MonoBehaviour
     {
         rb.gravityScale = Data.gravityMult;
         rb.linearVelocity = new Vector2(rb.linearVelocity.x, Mathf.Max(rb.linearVelocity.y, -Data.terminalVel));
+    }
+
+    private void Stun(Vector3 enemyPos) 
+    {
+        rb.AddForce((Vector3.up.normalized + (enemyPos - transform.position).normalized) * Data.selfStunKnockBack, ForceMode2D.Impulse);
+        IsStunned = true;
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.tag == "Enemy") 
+        {
+            Stun(collision.gameObject.transform.position);
+        }
     }
 }

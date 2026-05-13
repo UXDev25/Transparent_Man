@@ -22,8 +22,12 @@ public class Data : ScriptableObject
     public float coyoteTime = 0.15f;
     public float jumpBufferTime = 0.15f;
     public float maxJumpAccum = 5;
+    public float selfStunKnockBack = 3;
 
     [Header("Times & Cooldowns")]
     public float maxTimeAccum = 1;
     public float jumpMultAccum = 0.25f;
+
+    [Header("Life And Others")]
+    public int maxLives = 3;
 }

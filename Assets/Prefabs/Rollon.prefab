@@ -13,11 +13,10 @@ GameObject:
   - component: {fileID: 8577660453331433133}
   - component: {fileID: -5122876191455308186}
   - component: {fileID: -600970681721666578}
-  - component: {fileID: 6719254175771698463}
   - component: {fileID: 3560224704828065039}
   m_Layer: 0
   m_Name: Rollon
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -181,20 +180,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 4
---- !u!114 &6719254175771698463
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5856140576321734015}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 96d5621841234bf4e9f1f8d1a43e43b4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::GroundSensor
-  groundChecker: {fileID: 0}
-  data: {fileID: 0}
 --- !u!114 &3560224704828065039
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -207,5 +192,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5526983b682aa5840a138c2bed44a24a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RollonManager
-  enemyData: {fileID: 0}
-  _raycastLength: 0
