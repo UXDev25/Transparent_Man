@@ -26,3 +26,8 @@ MonoBehaviour:
   jumpForce: 7
   coyoteTime: 0.15
   jumpBufferTime: 0.15
+  maxJumpAccum: 5
+  selfStunKnockBack: 10
+  maxTimeAccum: 1
+  jumpMultAccum: 0.25
+  maxLives: 3

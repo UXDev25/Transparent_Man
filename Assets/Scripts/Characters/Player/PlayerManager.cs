@@ -17,6 +17,7 @@ public class PlayerManager : MonoBehaviour
     private float moveSpeed;
     private float coyoteTimeCounter;
     private int _lives;
+    private bool _deactivateGrounded = false;
     public bool CanPlay { get; private set; }
     public bool IsStunned { get; private set; }
     public bool IsRunning { get; private set; }
@@ -56,6 +57,7 @@ public class PlayerManager : MonoBehaviour
     public void ResetPlayer()
     {
         transform.position = spawnPoint.position;
+        _lives = Data.maxLives;
         IsDead = EDeathState.Alive;
         CanPlay = true;
         rb.simulated = true;
@@ -96,12 +98,12 @@ public class PlayerManager : MonoBehaviour
     {
         if (IsDead == EDeathState.Dead) Destroy(gameObject);
         if (Data == null || !CanPlay) return;
-        if (IsDead == EDeathState.Dying) 
+        if (IsDead == EDeathState.Dying || _lives <= 0) 
         {
             Debug.Log("Dying in fixedupdate");
             Die();
         }
-        GroundDetector();
+        if (!_deactivateGrounded) GroundDetector();
         Move();
         if (jumped && !_accumulationManager.IsAccumulating)
         {
@@ -117,6 +119,7 @@ public class PlayerManager : MonoBehaviour
             coyoteTimeCounter -= Time.fixedDeltaTime;
             if (rb.linearVelocity.y < 0 && coyoteTimeCounter < 0f) MultiplyGravity();
         }
+        Debug.Log($"{IsStunned}, lives: {_lives}");
     }
 
     private IEnumerator DyingRoutine()
@@ -131,6 +134,7 @@ public class PlayerManager : MonoBehaviour
     }
     public void Die()
     {
+        IsStunned = false;
         IsDead = EDeathState.Dying;
         CanPlay = false;
         Debug.Log("Dying start");
@@ -151,9 +155,17 @@ public class PlayerManager : MonoBehaviour
         rb.AddForce(Vector2.up.normalized * Data.jumpForce * jumpMult, ForceMode2D.Impulse);
         if (jumped) jumped = false;
         coyoteTimeCounter = 0;
-    } 
+    }
 
-    private void GroundDetector() => IsGrounded = Physics2D.OverlapCircle(groundChecker.position, Data.detectionRadius, Data.groundMask);
+    private void GroundDetector() 
+    {
+        IsGrounded = Physics2D.OverlapCircle(groundChecker.position, Data.detectionRadius, Data.groundMask);
+        if (IsGrounded && IsStunned) 
+        {
+            IsStunned = false;
+            CanPlay = true;
+        } 
+    } 
 
     private void MultiplyGravity()
     {
@@ -163,13 +175,26 @@ public class PlayerManager : MonoBehaviour
 
     private void Stun(Vector3 enemyPos) 
     {
-        rb.AddForce((Vector3.up.normalized + (enemyPos - transform.position).normalized) * Data.selfStunKnockBack, ForceMode2D.Impulse);
+        if (IsStunned) return;
+        Vector2 direction = enemyPos - transform.position;
+        float pseudoDirection = -Mathf.Sign(direction.x);
+        rb.AddForce(new Vector2(Data.selfStunKnockBack * pseudoDirection, 10), ForceMode2D.Impulse);
+        _lives--;
+        StartCoroutine(UnGroundedRoutine());
         IsStunned = true;
+        CanPlay = false;
+    }
+
+    private IEnumerator UnGroundedRoutine()
+    {
+        _deactivateGrounded = true;
+        yield return new WaitForSeconds(1);
+        _deactivateGrounded = false;
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.tag == "Enemy") 
+        if (collision.gameObject.tag == "Enemy" && !IsStunned) 
         {
             Stun(collision.gameObject.transform.position);
         }
