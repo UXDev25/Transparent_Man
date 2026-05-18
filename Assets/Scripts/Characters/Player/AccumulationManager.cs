@@ -38,13 +38,13 @@ public class AccumulationManager : MonoBehaviour
 
     private void HandleAccumulation()
     {
-        if (IsPressingDown())
+        if (IsPressingDown() && !_player.IsStunned || !_player.IsGrounded)
         {
             if (!IsAccumulating) StartAccumulation();
 
             UpdateAccumulation();
         }
-        else if (_counter != 0 && IsAccumulating) 
+        else if (_counter == 0 && IsAccumulating) 
         {
             EndAccumulation();
         }
@@ -61,8 +61,6 @@ public class AccumulationManager : MonoBehaviour
     {
         _timer += Time.deltaTime;
         if (inputActionJump.WasPressedThisFrame()) _counter += data.jumpMultAccum;
-
-        if (_counter == 0) return;
         if ((_counter >= data.maxJumpAccum || _timer >= data.maxTimeAccum)) EndAccumulation();
     }
 

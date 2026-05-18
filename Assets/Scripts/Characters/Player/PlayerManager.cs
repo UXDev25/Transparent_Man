@@ -11,16 +11,13 @@ public class PlayerManager : MonoBehaviour
     private InputAction inputActionMove;
     private InputAction inputActionJump;
     private InputAction inputActionRun;
-    private InputAction inputActionInteract;
 
     //Player
-    private float moveSpeed;
     private float coyoteTimeCounter;
     private int _lives;
     private bool _deactivateGrounded = false;
     public bool CanPlay { get; private set; }
     public bool IsStunned { get; private set; }
-    public bool IsRunning { get; private set; }
     public bool IsGrounded { get; private set; }
     public Vector2 actMove { get; private set; }
     public EDeathState IsDead { get; private set; }
@@ -35,7 +32,6 @@ public class PlayerManager : MonoBehaviour
     //Components
     [SerializeField] private Rigidbody2D rb;
     [SerializeField] private Transform groundChecker;
-    private AccumulationManager _accumulationManager;
     private Transform spawnPoint;
 
     private void Awake()
@@ -43,7 +39,6 @@ public class PlayerManager : MonoBehaviour
         inputActionMove = InputSystem.actions.FindAction("Move");
         inputActionJump = InputSystem.actions.FindAction("Jump");
         inputActionRun = InputSystem.actions.FindAction("Sprint");
-        inputActionInteract = InputSystem.actions.FindAction("Interact");
     }
 
     void Start()
@@ -52,7 +47,6 @@ public class PlayerManager : MonoBehaviour
         _lives = Data.maxLives;
         spawnPoint = GameObject.FindGameObjectWithTag("SpawnPoint").transform;
         rb = GetComponent<Rigidbody2D>();
-        _accumulationManager = GetComponent<AccumulationManager>();
         ResetPlayer();
     }
     public void ResetPlayer()
@@ -74,8 +68,6 @@ public class PlayerManager : MonoBehaviour
         CheckCoyoteAndBufferTime();
         //setting run or walk state and its speed
         actMove = inputActionMove.ReadValue<Vector2>();
-        IsRunning = inputActionRun.IsPressed() && IsGrounded;
-        moveSpeed = IsRunning ? Data.MaxRunSpeed : Data.MaxWalkSpeed;
     }
 
     public void CheckCoyoteAndBufferTime() 
@@ -108,7 +100,7 @@ public class PlayerManager : MonoBehaviour
             Die();
         }
         Move();
-        if (jumped && !_accumulationManager.IsAccumulating)
+        if (jumped)
         {
             Jump(1);
         }
@@ -122,7 +114,6 @@ public class PlayerManager : MonoBehaviour
             coyoteTimeCounter -= Time.fixedDeltaTime;
             if (rb.linearVelocity.y < 0 && coyoteTimeCounter < 0f) MultiplyGravity();
         }
-        Debug.Log($"{IsStunned}, lives: {_lives}, deactivateGrounded: {_deactivateGrounded}");
     }
 
     private IEnumerator DyingRoutine()
@@ -148,7 +139,7 @@ public class PlayerManager : MonoBehaviour
 
     private void Move()
     {
-        float targetSpeed = actMove.x * moveSpeed;
+        float targetSpeed = actMove.x * Data.MaxWalkSpeed;
         float speedDif = targetSpeed - rb.linearVelocity.x;
         float accelRate = (Mathf.Abs(targetSpeed) > 0.01f) ? Data.acceleration : Data.deceleration;
         float movement = speedDif * accelRate;
@@ -187,7 +178,11 @@ public class PlayerManager : MonoBehaviour
         float pseudoDirection = -Mathf.Sign(direction.x);
         rb.AddForce(new Vector2(Data.selfStunKnockBackX * pseudoDirection, Data.selfStunKnockBackY), ForceMode2D.Impulse);
         _lives--;
-        if (_lives <= 0) gameObject.layer = LayerMask.NameToLayer(Data.DeathMaskHash);
+        if (_lives <= 0) 
+        {
+            Die();
+            gameObject.layer = LayerMask.NameToLayer(Data.DeathMaskHash);
+        } 
         StartCoroutine(UnGroundedRoutine());
         IsStunned = true;
         CanPlay = false;

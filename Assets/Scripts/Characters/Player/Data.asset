@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4731481f3c91c64ea5fe5fa8758dcbe, type: 3}
   m_Name: Data
   m_EditorClassIdentifier: Assembly-CSharp::Data
-  gravityMult: 1.5
+  gravityMult: 2
   terminalVel: 100
   DeathMaskHash: Death
   LifeMaskHash: Player
@@ -27,7 +27,7 @@ MonoBehaviour:
   velPower: 6
   jumpForce: 7
   coyoteTime: 0.15
-  jumpBufferTime: 0.15
+  jumpBufferTime: 0.25
   maxJumpAccum: 5
   selfStunKnockBackX: 5
   selfStunKnockBackY: 3
