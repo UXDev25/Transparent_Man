@@ -28,7 +28,7 @@ public class PlayerAnimation : MonoBehaviour
 
     void Update()
     {
-        FlipDirection();
+        if (!player.IsStunned) FlipDirection();
         isWalking = !isMidAir && !player.IsRunning && player.actMove.x != 0;
         animator.SetBool(IsWalkingHash, isWalking);
         isRunning = !isMidAir && player.IsRunning && player.actMove.x != 0;

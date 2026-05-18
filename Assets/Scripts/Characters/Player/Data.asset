@@ -14,6 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Data
   gravityMult: 1.5
   terminalVel: 100
+  DeathMaskHash: 
+  LifeMaskHash: 
   groundMask:
     serializedVersion: 2
     m_Bits: 8
@@ -27,7 +29,8 @@ MonoBehaviour:
   coyoteTime: 0.15
   jumpBufferTime: 0.15
   maxJumpAccum: 5
-  selfStunKnockBack: 10
+  selfStunKnockBackX: 5
+  selfStunKnockBackY: 3
   maxTimeAccum: 1
   jumpMultAccum: 0.25
   maxLives: 3

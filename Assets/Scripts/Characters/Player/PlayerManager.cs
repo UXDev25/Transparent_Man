@@ -48,6 +48,7 @@ public class PlayerManager : MonoBehaviour
 
     void Start()
     {
+        gameObject.layer = LayerMask.NameToLayer(Data.LifeMaskHash);
         _lives = Data.maxLives;
         spawnPoint = GameObject.FindGameObjectWithTag("SpawnPoint").transform;
         rb = GetComponent<Rigidbody2D>();
@@ -57,9 +58,12 @@ public class PlayerManager : MonoBehaviour
     public void ResetPlayer()
     {
         transform.position = spawnPoint.position;
+        gameObject.layer = LayerMask.NameToLayer(Data.LifeMaskHash);
         _lives = Data.maxLives;
         IsDead = EDeathState.Alive;
         CanPlay = true;
+        IsStunned = false;
+        _deactivateGrounded = false;
         rb.simulated = true;
         GameManager.Instance.VCam.Follow = transform;
     }
@@ -97,13 +101,12 @@ public class PlayerManager : MonoBehaviour
     private void FixedUpdate()
     {
         if (IsDead == EDeathState.Dead) Destroy(gameObject);
+        if (!_deactivateGrounded) { GroundDetector(); }
         if (Data == null || !CanPlay) return;
         if (IsDead == EDeathState.Dying || _lives <= 0) 
         {
-            Debug.Log("Dying in fixedupdate");
             Die();
         }
-        if (!_deactivateGrounded) GroundDetector();
         Move();
         if (jumped && !_accumulationManager.IsAccumulating)
         {
@@ -119,7 +122,7 @@ public class PlayerManager : MonoBehaviour
             coyoteTimeCounter -= Time.fixedDeltaTime;
             if (rb.linearVelocity.y < 0 && coyoteTimeCounter < 0f) MultiplyGravity();
         }
-        Debug.Log($"{IsStunned}, lives: {_lives}");
+        Debug.Log($"{IsStunned}, lives: {_lives}, deactivateGrounded: {_deactivateGrounded}");
     }
 
     private IEnumerator DyingRoutine()
@@ -134,6 +137,8 @@ public class PlayerManager : MonoBehaviour
     }
     public void Die()
     {
+        gameObject.layer = LayerMask.NameToLayer(Data.DeathMaskHash);
+        Debug.Log(gameObject.layer.ToString());
         IsStunned = false;
         IsDead = EDeathState.Dying;
         CanPlay = false;
@@ -162,6 +167,7 @@ public class PlayerManager : MonoBehaviour
         IsGrounded = Physics2D.OverlapCircle(groundChecker.position, Data.detectionRadius, Data.groundMask);
         if (IsGrounded && IsStunned) 
         {
+            Debug.Log("grounded && stunned");
             IsStunned = false;
             CanPlay = true;
         } 
@@ -175,10 +181,11 @@ public class PlayerManager : MonoBehaviour
 
     private void Stun(Vector3 enemyPos) 
     {
+        
         if (IsStunned) return;
         Vector2 direction = enemyPos - transform.position;
         float pseudoDirection = -Mathf.Sign(direction.x);
-        rb.AddForce(new Vector2(Data.selfStunKnockBack * pseudoDirection, 10), ForceMode2D.Impulse);
+        rb.AddForce(new Vector2(Data.selfStunKnockBackX * pseudoDirection, Data.selfStunKnockBackY), ForceMode2D.Impulse);
         _lives--;
         StartCoroutine(UnGroundedRoutine());
         IsStunned = true;
@@ -188,7 +195,7 @@ public class PlayerManager : MonoBehaviour
     private IEnumerator UnGroundedRoutine()
     {
         _deactivateGrounded = true;
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(1f);
         _deactivateGrounded = false;
     }
 

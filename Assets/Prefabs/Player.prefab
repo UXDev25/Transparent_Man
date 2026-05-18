@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 2949088264650744905}
   - component: {fileID: 1159022441030104164}
   - component: {fileID: 7024672551414698439}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -242,7 +242,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 806971492145412296}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: GroundChecker
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -7,6 +7,8 @@ public class Data : ScriptableObject
     [Header("GeneralPhysics")]
     public float gravityMult = 1.5f;
     public float terminalVel = 100f;
+    public string DeathMaskHash;
+    public string LifeMaskHash;
 
     [Header("GroundChecker")]
     public LayerMask groundMask;
@@ -22,7 +24,8 @@ public class Data : ScriptableObject
     public float coyoteTime = 0.15f;
     public float jumpBufferTime = 0.15f;
     public float maxJumpAccum = 5;
-    public float selfStunKnockBack = 3;
+    public float selfStunKnockBackX = 5;
+    public float selfStunKnockBackY = 3;
 
     [Header("Times & Cooldowns")]
     public float maxTimeAccum = 1;
