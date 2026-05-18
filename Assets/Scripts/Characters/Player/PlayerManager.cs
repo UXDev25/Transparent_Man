@@ -187,6 +187,7 @@ public class PlayerManager : MonoBehaviour
         float pseudoDirection = -Mathf.Sign(direction.x);
         rb.AddForce(new Vector2(Data.selfStunKnockBackX * pseudoDirection, Data.selfStunKnockBackY), ForceMode2D.Impulse);
         _lives--;
+        if (_lives <= 0) gameObject.layer = LayerMask.NameToLayer(Data.DeathMaskHash);
         StartCoroutine(UnGroundedRoutine());
         IsStunned = true;
         CanPlay = false;

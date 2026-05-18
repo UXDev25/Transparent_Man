@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Data
   gravityMult: 1.5
   terminalVel: 100
-  DeathMaskHash: 
-  LifeMaskHash: 
+  DeathMaskHash: Death
+  LifeMaskHash: Player
   groundMask:
     serializedVersion: 2
     m_Bits: 8
