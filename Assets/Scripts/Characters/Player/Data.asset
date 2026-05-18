@@ -19,6 +19,7 @@ MonoBehaviour:
   groundMask:
     serializedVersion: 2
     m_Bits: 8
+  groundMaskHash: Ground
   detectionRadius: 0.2
   MaxRunSpeed: 12
   MaxWalkSpeed: 6
@@ -34,3 +35,5 @@ MonoBehaviour:
   maxTimeAccum: 1
   jumpMultAccum: 0.25
   maxLives: 3
+  wallRayCastSize: 0.5
+  playerTag: Player

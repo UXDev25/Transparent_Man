@@ -12,6 +12,7 @@ public class Data : ScriptableObject
 
     [Header("GroundChecker")]
     public LayerMask groundMask;
+    public string groundMaskHash = "Ground";
     public float detectionRadius = 0.2f;
 
     [Header("PlayerPhysics")]
@@ -33,4 +34,8 @@ public class Data : ScriptableObject
 
     [Header("Life And Others")]
     public int maxLives = 3;
+
+    [Header("Enemies")]
+    public float wallRayCastSize = 0.5f;
+    public string playerTag = "Player";
 }

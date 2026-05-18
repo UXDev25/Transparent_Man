@@ -6440,11 +6440,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1895460093501150934, guid: c8c6b48cdfe23fc46b6bb9edd0163993, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 4.25112
+      value: 25
       objectReference: {fileID: 0}
     - target: {fileID: 1895460093501150934, guid: c8c6b48cdfe23fc46b6bb9edd0163993, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.81941
+      value: -1.5
       objectReference: {fileID: 0}
     - target: {fileID: 1895460093501150934, guid: c8c6b48cdfe23fc46b6bb9edd0163993, type: 3}
       propertyPath: m_LocalPosition.z
@@ -6478,6 +6478,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4167758920274650582, guid: c8c6b48cdfe23fc46b6bb9edd0163993, type: 3}
+      propertyPath: _data
+      value: 
+      objectReference: {fileID: 11400000, guid: 96c4b5cd5c8222c458b11e7d61b0071b, type: 2}
     - target: {fileID: 5856140576321734015, guid: c8c6b48cdfe23fc46b6bb9edd0163993, type: 3}
       propertyPath: m_Name
       value: Rollon

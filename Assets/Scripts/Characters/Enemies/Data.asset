@@ -14,15 +14,26 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Data
   gravityMult: 1.5
   terminalVel: 100
+  DeathMaskHash: 
+  LifeMaskHash: 
   groundMask:
     serializedVersion: 2
-    m_Bits: 0
-  detectionRadius: 0.2
+    m_Bits: 8
+  groundMaskHash: Ground
+  detectionRadius: 0.14
   MaxRunSpeed: 12
-  MaxWalkSpeed: 6
+  MaxWalkSpeed: 7
   acceleration: 500
   deceleration: 340
   velPower: 6
   jumpForce: 100
   coyoteTime: 0.15
   jumpBufferTime: 0.15
+  maxJumpAccum: 5
+  selfStunKnockBackX: 5
+  selfStunKnockBackY: 3
+  maxTimeAccum: 1
+  jumpMultAccum: 0.25
+  maxLives: 3
+  wallRayCastSize: 1
+  playerTag: Player
