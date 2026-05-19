@@ -36,6 +36,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8484358670555325976}
+  - {fileID: 2342018291234948806}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &8046788282297273528
@@ -206,6 +207,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::RollonManager
   _data: {fileID: 11400000, guid: 96c4b5cd5c8222c458b11e7d61b0071b, type: 2}
   _groundChecker: {fileID: 8484358670555325976}
+  _edgeChecker: {fileID: 2342018291234948806}
 --- !u!114 &4167758920274650582
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -220,6 +222,37 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EnemyManager
   _data: {fileID: 11400000, guid: 96c4b5cd5c8222c458b11e7d61b0071b, type: 2}
   _groundChecker: {fileID: 8484358670555325976}
+--- !u!1 &6161587759704676417
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2342018291234948806}
+  m_Layer: 9
+  m_Name: EdgeChecker
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2342018291234948806
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6161587759704676417}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0.5, y: -0.5, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1895460093501150934}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6206691796730729003
 GameObject:
   m_ObjectHideFlags: 0
@@ -245,7 +278,7 @@ Transform:
   m_GameObject: {fileID: 6206691796730729003}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.5, y: -0.5, z: 0}
+  m_LocalPosition: {x: 0, y: -0.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

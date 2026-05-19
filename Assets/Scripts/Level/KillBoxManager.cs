@@ -11,7 +11,10 @@ public class KillBoxManager : MonoBehaviour
         if (collision.gameObject.tag == "Player")
         {
             Debug.Log("Dying");
-            if (collision.TryGetComponent(out PlayerManager player)) player.SetIsDead(EDeathState.Dying);
+            if (collision.TryGetComponent(out PlayerManager player)) 
+            {
+                player.Die();
+            }
             GameManager.Instance.VCam.Follow = null;
         }
     }

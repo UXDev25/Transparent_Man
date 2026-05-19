@@ -94,11 +94,8 @@ public class PlayerManager : MonoBehaviour
     {
         if (IsDead == EDeathState.Dead) Destroy(gameObject);
         if (!_deactivateGrounded) { GroundDetector(); }
-        if (Data == null || !CanPlay) return;
-        if (IsDead == EDeathState.Dying || _lives <= 0) 
-        {
-            Die();
-        }
+        if (IsDead == EDeathState.Dying || Data == null || !CanPlay) return;
+        if (_lives <= 0) Die();
         Move();
         if (jumped)
         {
@@ -118,21 +115,20 @@ public class PlayerManager : MonoBehaviour
 
     private IEnumerator DyingRoutine()
     {
-        yield return new WaitForSeconds(1);
-        rb.simulated = false;
-        yield return new WaitForSeconds(2);
+        yield return new WaitForSeconds(3);
         Debug.Log("Fully dead");
-
         IsDead = EDeathState.Dead;
         ResetPlayer();
     }
     public void Die()
     {
+        IsStunned = true;
+        CanPlay = false;
+        GameManager.Instance.VCam.Follow = null;
         gameObject.layer = LayerMask.NameToLayer(Data.DeathMaskHash);
         Debug.Log(gameObject.layer.ToString());
-        IsStunned = false;
         IsDead = EDeathState.Dying;
-        CanPlay = false;
+        
         Debug.Log("Dying start");
         StartCoroutine(DyingRoutine());
     }
@@ -180,8 +176,9 @@ public class PlayerManager : MonoBehaviour
         _lives--;
         if (_lives <= 0) 
         {
+            _deactivateGrounded = true;
             Die();
-            gameObject.layer = LayerMask.NameToLayer(Data.DeathMaskHash);
+            return;
         } 
         StartCoroutine(UnGroundedRoutine());
         IsStunned = true;

@@ -35,5 +35,8 @@ MonoBehaviour:
   maxTimeAccum: 1
   jumpMultAccum: 0.25
   maxLives: 3
-  wallRayCastSize: 1
+  wallRayCastSize: 0.55
+  groundAndPlayerMask:
+    serializedVersion: 2
+    m_Bits: 520
   playerTag: Player

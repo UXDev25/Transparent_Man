@@ -37,5 +37,6 @@ public class Data : ScriptableObject
 
     [Header("Enemies")]
     public float wallRayCastSize = 0.5f;
+    public LayerMask groundAndPlayerMask;
     public string playerTag = "Player";
 }
