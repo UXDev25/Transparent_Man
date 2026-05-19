@@ -30,7 +30,7 @@ public class PlayerManager : MonoBehaviour
     public void SetBufferCounter(float counter) => jumpBufferCounter = counter;
 
     //Components
-    [SerializeField] private Rigidbody2D rb;
+    public Rigidbody2D rb { get; private set; }
     [SerializeField] private Transform groundChecker;
     private Transform spawnPoint;
 

@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 8222127472316264424}
   - component: {fileID: 2949088264650744905}
   - component: {fileID: 7024672551414698439}
+  - component: {fileID: 7803083835443801700}
   m_Layer: 9
   m_Name: Player
   m_TagString: Player
@@ -137,7 +138,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerManager
   Data: {fileID: 11400000, guid: 335ffd0ad30738840a7d1fa3e2eec3c7, type: 2}
-  rb: {fileID: 5853884727926045274}
   groundChecker: {fileID: 806971492145412296}
 --- !u!95 &8222127472316264424
 Animator:
@@ -219,6 +219,18 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1, y: 1.625}
   m_EdgeRadius: 0
+--- !u!114 &7803083835443801700
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5467174341074132292}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f8b34b546474d5f41949e44c76fc4730, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HitManager
 --- !u!1 &9048622306426638654
 GameObject:
   m_ObjectHideFlags: 0

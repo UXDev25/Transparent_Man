@@ -26,7 +26,6 @@ public class RollonManager : MonoBehaviour
         IsOnGroundDetector();
         FlipDirection(_isFacingRight);
         _rb.linearVelocityX = _data.MaxWalkSpeed * transform.localScale.x;
-        Debug.Log(IsOnGround);
         _raycastHit = Physics2D.Raycast(transform.position, Vector2.right * transform.localScale.x, _data.wallRayCastSize, _data.groundAndPlayerMask);
         if ((_raycastHit.collider != null || IsNearEdge()) && IsOnGround)
         {
