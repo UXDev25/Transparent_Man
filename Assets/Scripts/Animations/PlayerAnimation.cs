@@ -35,9 +35,6 @@ public class PlayerAnimation : MonoBehaviour
         animator.SetBool(IsMidAirHash, isMidAir);
         isStunned = player.IsStunned;
         animator.SetBool(IsStunnedHash, isStunned);
-        isPunching = hitManager.IsPunching;
-        animator.SetBool(IsPunchingHash, isPunching);
-        animator.SetInteger(punchCounterHash, hitManager.PunchCounter);
         //Debug.Log($"is walking: {isWalking}, isMidAir: {isMidAir}");
     }
 
