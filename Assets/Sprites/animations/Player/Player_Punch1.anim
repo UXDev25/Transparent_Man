@@ -32,6 +32,8 @@ AnimationClip:
       value: {fileID: -4778475238455466032, guid: 9f23d47337c6218498a215665665f95e, type: 3}
     - time: 0.5
       value: {fileID: -5911983180156145754, guid: 9f23d47337c6218498a215665665f95e, type: 3}
+    - time: 0.6666667
+      value: {fileID: -5911983180156145754, guid: 9f23d47337c6218498a215665665f95e, type: 3}
     attribute: m_Sprite
     path: 
     classID: 212
@@ -60,12 +62,13 @@ AnimationClip:
     - {fileID: 3288702168158185420, guid: 9f23d47337c6218498a215665665f95e, type: 3}
     - {fileID: -4778475238455466032, guid: 9f23d47337c6218498a215665665f95e, type: 3}
     - {fileID: -5911983180156145754, guid: 9f23d47337c6218498a215665665f95e, type: 3}
+    - {fileID: -5911983180156145754, guid: 9f23d47337c6218498a215665665f95e, type: 3}
   m_AnimationClipSettings:
     serializedVersion: 2
     m_AdditiveReferencePoseClip: {fileID: 0}
     m_AdditiveReferencePoseTime: 0
     m_StartTime: 0
-    m_StopTime: 0.51666665
+    m_StopTime: 0.68333334
     m_OrientationOffsetY: 0
     m_Level: 0
     m_CycleOffset: 0
@@ -94,6 +97,13 @@ AnimationClip:
     messageOptions: 0
   - time: 0.5
     functionName: FinishCombo
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 0.6666667
+    functionName: FinishAnimation
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0

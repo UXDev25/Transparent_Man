@@ -2,21 +2,23 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-[RequireComponent(typeof(PlayerManager))]
 public class HitManager : MonoBehaviour
 {
-    private PlayerManager _player;
+    private PlayerManager _playerManager;
+    private Rigidbody2D _rb;
     private InputAction inputActionPunch;
+    private GameObject _hitBoxOne;
     public bool IsPunching { get; private set; } = false;
     public int PunchCounter { get; private set; } = 0;
-    private float _betweeenPunchTimer = 0f;
     private Animator _animator;
 
     void Start()
     {
         inputActionPunch = InputSystem.actions.FindAction("Punch");
-        _player = GetComponent<PlayerManager>();
         _animator = GetComponent<Animator>();
+        _hitBoxOne = transform.GetChild(1).gameObject;
+        _playerManager = GetComponent<PlayerManager>();
+        _rb = GetComponent<Rigidbody2D>();
     }
 
     void Update()
@@ -26,8 +28,10 @@ public class HitManager : MonoBehaviour
 
     private void Combo() 
     { 
-        if (inputActionPunch.WasPressedThisFrame() && !IsPunching && _player.IsGrounded)
+        if (inputActionPunch.WasPressedThisFrame() && !IsPunching && _playerManager.IsGrounded)
         {
+            _rb.linearVelocityX = 0;
+            _playerManager.SetCanPlay(false);
             IsPunching = true;
             _animator.SetTrigger(""+PunchCounter);
         }
@@ -39,12 +43,19 @@ public class HitManager : MonoBehaviour
         if (PunchCounter < 2)
         {
             PunchCounter++;
+            _hitBoxOne.SetActive(true);
+            _rb.AddForce(new Vector2(transform.localScale.x * _playerManager.data.punchForwardForce, transform.position.y), ForceMode2D.Impulse);
         }
     }
 
     private void FinishCombo() 
     {
+        _hitBoxOne.SetActive(false);
         IsPunching = false;
         PunchCounter = 0;
+    }
+    private void FinishAnimation()
+    {
+        _playerManager.SetCanPlay(true);
     }
 }

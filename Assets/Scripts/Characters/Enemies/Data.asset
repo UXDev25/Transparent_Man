@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Data
   gravityMult: 1.5
   terminalVel: 100
-  DeathMaskHash: 
-  LifeMaskHash: 
+  DeathMaskHash: Death
+  LifeMaskHash: Default
   groundMask:
     serializedVersion: 2
     m_Bits: 8
@@ -30,11 +30,13 @@ MonoBehaviour:
   coyoteTime: 0.15
   jumpBufferTime: 0.15
   maxJumpAccum: 5
-  selfStunKnockBackX: 5
-  selfStunKnockBackY: 3
+  selfStunKnockBackX: 10
+  selfStunKnockBackY: 4
+  punchForwardForce: 2
   maxTimeAccum: 1
   jumpMultAccum: 0.25
-  maxLives: 3
+  ungroundTime: 0.5
+  maxLives: 99
   wallRayCastSize: 0.55
   groundAndPlayerMask:
     serializedVersion: 2

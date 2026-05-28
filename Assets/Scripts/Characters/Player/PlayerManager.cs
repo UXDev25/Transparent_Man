@@ -3,9 +3,9 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class PlayerManager : MonoBehaviour
+public class PlayerManager : EntityManager
 {
-    public Data Data;
+    
 
     //Inputs
     private InputAction inputActionMove;
@@ -14,24 +14,17 @@ public class PlayerManager : MonoBehaviour
 
     //Player
     private float coyoteTimeCounter;
-    private int _lives;
-    private bool _deactivateGrounded = false;
     public bool CanPlay { get; private set; }
-    public bool IsStunned { get; private set; }
-    public bool IsGrounded { get; private set; }
     public Vector2 actMove { get; private set; }
-    public EDeathState IsDead { get; private set; }
     public bool jumped { get; private set; }
     public float jumpBufferCounter { get; private set; }
     
     //Setters
-    public void SetIsDead(EDeathState playerState) => IsDead = playerState;
     public void SetJumped(bool jumpedPar) => jumped = jumpedPar;
+    public void SetCanPlay(bool canPlay) => CanPlay = canPlay;
     public void SetBufferCounter(float counter) => jumpBufferCounter = counter;
 
     //Components
-    public Rigidbody2D rb { get; private set; }
-    [SerializeField] private Transform groundChecker;
     private Transform spawnPoint;
 
     private void Awake()
@@ -43,21 +36,19 @@ public class PlayerManager : MonoBehaviour
 
     void Start()
     {
-        gameObject.layer = LayerMask.NameToLayer(Data.LifeMaskHash);
-        _lives = Data.maxLives;
+        gameObject.layer = LayerMask.NameToLayer(data.LifeMaskHash);
         spawnPoint = GameObject.FindGameObjectWithTag("SpawnPoint").transform;
-        rb = GetComponent<Rigidbody2D>();
         ResetPlayer();
     }
     public void ResetPlayer()
     {
         transform.position = spawnPoint.position;
-        gameObject.layer = LayerMask.NameToLayer(Data.LifeMaskHash);
-        _lives = Data.maxLives;
+        gameObject.layer = LayerMask.NameToLayer(data.LifeMaskHash);
+        Lives = data.maxLives;
         IsDead = EDeathState.Alive;
         CanPlay = true;
         IsStunned = false;
-        _deactivateGrounded = false;
+        deactivateGrounded = false;
         rb.simulated = true;
         GameManager.Instance.VCam.Follow = transform;
     }
@@ -75,7 +66,7 @@ public class PlayerManager : MonoBehaviour
         #region coyoteTime
         if (inputActionJump.WasPressedThisFrame())
         {
-            jumpBufferCounter = Data.jumpBufferTime;
+            jumpBufferCounter = data.jumpBufferTime;
         }
         else jumpBufferCounter -= Time.deltaTime;
 
@@ -93,9 +84,9 @@ public class PlayerManager : MonoBehaviour
     private void FixedUpdate()
     {
         if (IsDead == EDeathState.Dead) Destroy(gameObject);
-        if (!_deactivateGrounded) { GroundDetector(); }
-        if (IsDead == EDeathState.Dying || Data == null || !CanPlay) return;
-        if (_lives <= 0) Die();
+        if (!deactivateGrounded) { GroundDetector(); }
+        if (IsDead == EDeathState.Dying || data == null || !CanPlay) return;
+        if (Lives <= 0) Die();
         Move();
         if (jumped)
         {
@@ -104,7 +95,7 @@ public class PlayerManager : MonoBehaviour
         if (IsGrounded && rb.linearVelocity.y <= 0.1f)
         {
             rb.gravityScale = 1;
-            if (!jumped) coyoteTimeCounter = Data.coyoteTime;
+            if (!jumped) coyoteTimeCounter = data.coyoteTime;
         }
         else
         {
@@ -113,19 +104,20 @@ public class PlayerManager : MonoBehaviour
         }
     }
 
-    private IEnumerator DyingRoutine()
+    protected override IEnumerator DyingRoutine()
     {
         yield return new WaitForSeconds(3);
         Debug.Log("Fully dead");
         IsDead = EDeathState.Dead;
         ResetPlayer();
     }
-    public void Die()
+    public override void Die()
     {
+
         IsStunned = true;
         CanPlay = false;
         GameManager.Instance.VCam.Follow = null;
-        gameObject.layer = LayerMask.NameToLayer(Data.DeathMaskHash);
+        gameObject.layer = LayerMask.NameToLayer(data.DeathMaskHash);
         Debug.Log(gameObject.layer.ToString());
         IsDead = EDeathState.Dying;
         
@@ -135,23 +127,23 @@ public class PlayerManager : MonoBehaviour
 
     private void Move()
     {
-        float targetSpeed = actMove.x * Data.MaxWalkSpeed;
+        float targetSpeed = actMove.x * data.MaxWalkSpeed;
         float speedDif = targetSpeed - rb.linearVelocity.x;
-        float accelRate = (Mathf.Abs(targetSpeed) > 0.01f) ? Data.acceleration : Data.deceleration;
+        float accelRate = (Mathf.Abs(targetSpeed) > 0.01f) ? data.acceleration : data.deceleration;
         float movement = speedDif * accelRate;
         rb.AddForce(movement * Vector2.right.normalized);
     }
 
     public void Jump(float jumpMult) 
     {
-        rb.AddForce(Vector2.up.normalized * Data.jumpForce * jumpMult, ForceMode2D.Impulse);
+        rb.AddForce(Vector2.up.normalized * data.jumpForce * jumpMult, ForceMode2D.Impulse);
         if (jumped) jumped = false;
         coyoteTimeCounter = 0;
     }
 
-    private void GroundDetector() 
+    protected override void GroundDetector() 
     {
-        IsGrounded = Physics2D.OverlapCircle(groundChecker.position, Data.detectionRadius, Data.groundMask);
+        IsGrounded = Physics2D.OverlapCircle(groundChecker.position, data.detectionRadius, data.groundMask);
         if (IsGrounded && IsStunned) 
         {
             Debug.Log("grounded && stunned");
@@ -162,39 +154,19 @@ public class PlayerManager : MonoBehaviour
 
     private void MultiplyGravity()
     {
-        rb.gravityScale = Data.gravityMult;
-        rb.linearVelocity = new Vector2(rb.linearVelocity.x, Mathf.Max(rb.linearVelocity.y, -Data.terminalVel));
+        rb.gravityScale = data.gravityMult;
+        rb.linearVelocity = new Vector2(rb.linearVelocity.x, Mathf.Max(rb.linearVelocity.y, -data.terminalVel));
     }
 
-    private void Stun(Vector3 enemyPos) 
+    protected override void Stun(Vector3 enemyPos) 
     {
-        
-        if (IsStunned) return;
-        Vector2 direction = enemyPos - transform.position;
-        float pseudoDirection = -Mathf.Sign(direction.x);
-        rb.AddForce(new Vector2(Data.selfStunKnockBackX * pseudoDirection, Data.selfStunKnockBackY), ForceMode2D.Impulse);
-        _lives--;
-        if (_lives <= 0) 
-        {
-            _deactivateGrounded = true;
-            Die();
-            return;
-        } 
-        StartCoroutine(UnGroundedRoutine());
-        IsStunned = true;
+        base.Stun(enemyPos);
         CanPlay = false;
     }
-
-    private IEnumerator UnGroundedRoutine()
-    {
-        _deactivateGrounded = true;
-        yield return new WaitForSeconds(1f);
-        _deactivateGrounded = false;
-    }
-
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.tag == "Enemy" && !IsStunned) 
+        EnemyManager enemy = collision.gameObject.GetComponent<EnemyManager>();   
+        if (enemy != null && enemy.tag == "Enemy" && !IsStunned && !enemy.IsStunned)
         {
             Stun(collision.gameObject.transform.position);
         }
