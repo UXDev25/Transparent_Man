@@ -10,7 +10,6 @@ public class PlayerManager : EntityManager
     //Inputs
     private InputAction inputActionMove;
     private InputAction inputActionJump;
-    private InputAction inputActionRun;
 
     //Player
     private float coyoteTimeCounter;
@@ -31,7 +30,6 @@ public class PlayerManager : EntityManager
     {
         inputActionMove = InputSystem.actions.FindAction("Move");
         inputActionJump = InputSystem.actions.FindAction("Jump");
-        inputActionRun = InputSystem.actions.FindAction("Sprint");
     }
 
     void Start()
