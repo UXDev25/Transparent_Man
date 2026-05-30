@@ -50,6 +50,24 @@ public class EntityManager : MonoBehaviour
         IsDead = EDeathState.Dead;
     }
 
+    protected virtual void Stun(Vector3 enemyPos, Vector2 knockBack)
+    {
+        Vector2 direction = enemyPos - transform.position;
+        float pseudoDirection = -Mathf.Sign(direction.x);
+        Debug.Log(pseudoDirection);
+        rb.AddForce(new Vector2(knockBack.x * pseudoDirection, knockBack.y), ForceMode2D.Impulse);
+        Lives--;
+        if (Lives <= 0)
+        {
+            deactivateGrounded = true;
+            Die();
+            return;
+        }
+        StartCoroutine(UnGroundedRoutine());
+        IsStunned = true;
+    }
+
+    //Stun method for player
     protected virtual void Stun(Vector3 enemyPos)
     {
 

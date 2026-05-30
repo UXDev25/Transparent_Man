@@ -42,6 +42,7 @@ GameObject:
   - component: {fileID: 3959736776472852227}
   - component: {fileID: 4482903980487821370}
   - component: {fileID: 3938182428403838014}
+  - component: {fileID: -2305943462829399592}
   m_Layer: 9
   m_Name: Hitbox
   m_TagString: HitBox
@@ -160,3 +161,16 @@ CircleCollider2D:
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
   m_Radius: 0.5
+--- !u!114 &-2305943462829399592
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8664275399691681536}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a98320eff83dad94c982027f272854ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HitboxInfo
+  _data: {fileID: 0}

@@ -1,4 +1,4 @@
-using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -42,9 +42,32 @@ public class HitManager : MonoBehaviour
         IsPunching = false;
         if (PunchCounter < 2)
         {
+            Debug.Log($"{PunchCounter} {_hitBoxOne.GetComponent<HitboxInfo>().KnockBack}");
             PunchCounter++;
-            _hitBoxOne.SetActive(true);
-            _rb.AddForce(new Vector2(transform.localScale.x * _playerManager.data.punchForwardForce, transform.position.y), ForceMode2D.Impulse);
+            _rb.AddForce(new Vector2(transform.localScale.x * _playerManager.data.punchForwardForce, 0), ForceMode2D.Impulse);
+        }
+    }
+
+    private void HideHitBox() 
+    {
+        _hitBoxOne.SetActive(false);
+    }
+
+    private void ShowHitBox(int hitboxNumber)
+    {
+        ApplyKnockBack(hitboxNumber);
+        _hitBoxOne.SetActive(true);
+    }
+
+    private void ApplyKnockBack(int punchCounter) 
+    { 
+        switch (punchCounter)
+        {
+            case <= 1:
+                _hitBoxOne.GetComponent<HitboxInfo>().ChangeKnockBack(_playerManager.data.comboPunchKB);
+                break;
+            default: _hitBoxOne.GetComponent<HitboxInfo>().ChangeKnockBack(_playerManager.data.punchKB);
+                break;
         }
     }
 

@@ -33,10 +33,12 @@ MonoBehaviour:
   selfStunKnockBackX: 10
   selfStunKnockBackY: 4
   punchForwardForce: 2
+  comboPunchKB: {x: 5, y: 3}
+  punchKB: {x: 5, y: 3}
   maxTimeAccum: 1
   jumpMultAccum: 0.25
   ungroundTime: 0.5
-  maxLives: 99
+  maxLives: 5
   wallRayCastSize: 0.55
   groundAndPlayerMask:
     serializedVersion: 2

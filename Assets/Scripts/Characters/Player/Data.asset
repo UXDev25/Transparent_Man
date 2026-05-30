@@ -26,13 +26,15 @@ MonoBehaviour:
   acceleration: 25
   deceleration: 8
   velPower: 6
-  jumpForce: 9
+  jumpForce: 11
   coyoteTime: 0.15
   jumpBufferTime: 0.25
   maxJumpAccum: 5
   selfStunKnockBackX: 5
   selfStunKnockBackY: 3
   punchForwardForce: 2
+  comboPunchKB: {x: 4, y: 2}
+  punchKB: {x: 10, y: 4}
   maxTimeAccum: 1
   jumpMultAccum: 0.25
   ungroundTime: 0.5

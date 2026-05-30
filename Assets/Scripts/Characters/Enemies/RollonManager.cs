@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
@@ -36,9 +37,9 @@ public class RollonManager : EnemyManager
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.tag == "HitBox" && !IsStunned)
+        if (collision.gameObject.tag == "HitBox")
         {
-            Stun(collision.gameObject.transform.GetChild(0).position);
+            Stun(collision.gameObject.transform.GetChild(0).position, collision.gameObject.GetComponent<HitboxInfo>().KnockBack);
         }
     }
 }

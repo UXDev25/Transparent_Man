@@ -30,6 +30,10 @@ public class Data : ScriptableObject
     public float selfStunKnockBackY = 3;
     public float punchForwardForce = 2;
 
+    [Header("KnockBacks")]
+    public Vector2 comboPunchKB = new Vector2(5, 3);
+    public Vector2 punchKB = new Vector2(5, 3);
+
     [Header("Times & Cooldowns")]
     public float maxTimeAccum = 1;
     public float jumpMultAccum = 0.25f;
