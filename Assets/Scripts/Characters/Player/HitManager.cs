@@ -44,17 +44,19 @@ public class HitManager : MonoBehaviour
         {
             Debug.Log($"{PunchCounter} {_hitBoxOne.GetComponent<HitboxInfo>().KnockBack}");
             PunchCounter++;
-            _rb.AddForce(new Vector2(transform.localScale.x * _playerManager.data.punchForwardForce, 0), ForceMode2D.Impulse);
+            
         }
     }
 
     private void HideHitBox() 
     {
+        _rb.linearVelocityX = 0;
         _hitBoxOne.SetActive(false);
     }
 
     private void ShowHitBox(int hitboxNumber)
     {
+        _rb.AddForce(new Vector2(transform.localScale.x * _playerManager.data.punchForwardForce, 0), ForceMode2D.Impulse);
         ApplyKnockBack(hitboxNumber);
         _hitBoxOne.SetActive(true);
     }

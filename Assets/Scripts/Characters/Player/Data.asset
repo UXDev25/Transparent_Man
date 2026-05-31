@@ -20,7 +20,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 8
   groundMaskHash: Ground
-  detectionRadius: 0.2
+  detectionRadius: 0.16
   MaxRunSpeed: 12
   MaxWalkSpeed: 7
   acceleration: 25
