@@ -6,8 +6,7 @@ public class RollonManager : EnemyManager
 {
     //Components
     [SerializeField] private Transform _edgeChecker;
-    private bool _isFacingRight = true;
-    private RaycastHit2D _raycastHit;
+    
 
     private void FixedUpdate()
     {
@@ -15,15 +14,16 @@ public class RollonManager : EnemyManager
         if (!deactivateGrounded) { GroundDetector(); }
         if (IsDead == EDeathState.Dying || data == null) return;
         if (Lives <= 0) Die();
-        FlipDirection(_isFacingRight);
+        FlipDirection(isFacingRight);
         if (!IsStunned) rb.linearVelocityX = data.MaxWalkSpeed * transform.localScale.x;
-        _raycastHit = Physics2D.Raycast(transform.position, Vector2.right * transform.localScale.x, data.wallRayCastSize, data.groundAndPlayerMask);
-        if (((_raycastHit.collider != null && _raycastHit.collider.tag != "HitBox") || IsNearEdge()) && IsGrounded && !IsStunned)
+        raycastHit = Physics2D.Raycast(transform.position, Vector2.right * transform.localScale.x, data.wallRayCastSize, data.groundAndPlayerMask);
+        if (((raycastHit.collider != null && raycastHit.collider.tag != "HitBox") || IsNearEdge()) && IsGrounded && !IsStunned)
         {
-            _isFacingRight = !_isFacingRight;
+            isFacingRight = !isFacingRight;
         }
     }
 
+    
 
     private bool IsNearEdge() 
     {

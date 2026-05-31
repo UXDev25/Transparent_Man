@@ -6,7 +6,7 @@ public class PlayerAnimation : MonoBehaviour
     private static readonly int IsWalkingHash = Animator.StringToHash("isWalking");
     private static readonly int IsStunnedHash = Animator.StringToHash("isStunned");
     private PlayerManager player;
-    private HitManager hitManager;
+    private PlayerHitManager hitManager;
     private Animator animator;
 
     private bool isMidAir;
@@ -17,13 +17,13 @@ public class PlayerAnimation : MonoBehaviour
     {
         player = GetComponent<PlayerManager>();
         animator = GetComponent<Animator>();
-        hitManager = GetComponent<HitManager>();
+        hitManager = GetComponent<PlayerHitManager>();
     }
 
     void Update()
     {
         if (!player.IsStunned && player.CanPlay) FlipDirection();
-        isWalking = !isMidAir && player.actMove.x != 0 && !hitManager.IsPunching;
+        isWalking = !isMidAir && player.actMove.x != 0 && !hitManager.IsAttacking;
         animator.SetBool(IsWalkingHash, isWalking);
         isMidAir = !player.IsGrounded;
         animator.SetBool(IsMidAirHash, isMidAir);

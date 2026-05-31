@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8106611962025596330}
-  m_Layer: 9
+  m_Layer: 0
   m_Name: HitboxStart
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -43,7 +43,7 @@ GameObject:
   - component: {fileID: 4482903980487821370}
   - component: {fileID: 3938182428403838014}
   - component: {fileID: -2305943462829399592}
-  m_Layer: 9
+  m_Layer: 0
   m_Name: Hitbox
   m_TagString: HitBox
   m_Icon: {fileID: 0}
@@ -173,4 +173,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a98320eff83dad94c982027f272854ba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HitboxInfo
-  _data: {fileID: 0}

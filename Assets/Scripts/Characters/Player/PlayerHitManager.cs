@@ -2,13 +2,10 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class HitManager : MonoBehaviour
+public class PlayerHitManager : HitManager
 {
     private PlayerManager _playerManager;
-    private Rigidbody2D _rb;
     private InputAction inputActionPunch;
-    private GameObject _hitBoxOne;
-    public bool IsPunching { get; private set; } = false;
     public int PunchCounter { get; private set; } = 0;
     private Animator _animator;
 
@@ -28,37 +25,29 @@ public class HitManager : MonoBehaviour
 
     private void Combo() 
     { 
-        if (inputActionPunch.WasPressedThisFrame() && !IsPunching && _playerManager.IsGrounded)
+        if (inputActionPunch.WasPressedThisFrame() && !IsAttacking && _playerManager.IsGrounded)
         {
             _rb.linearVelocityX = 0;
             _playerManager.SetCanPlay(false);
-            IsPunching = true;
+            IsAttacking = true;
             _animator.SetTrigger(""+PunchCounter);
         }
     }
 
     private void StartCombo() 
     {
-        IsPunching = false;
+        IsAttacking = false;
         if (PunchCounter < 2)
         {
             Debug.Log($"{PunchCounter} {_hitBoxOne.GetComponent<HitboxInfo>().KnockBack}");
             PunchCounter++;
-            
         }
     }
 
-    private void HideHitBox() 
+    protected override void ShowHitBox(int hitboxNumber)
     {
-        _rb.linearVelocityX = 0;
-        _hitBoxOne.SetActive(false);
-    }
-
-    private void ShowHitBox(int hitboxNumber)
-    {
-        _rb.AddForce(new Vector2(transform.localScale.x * _playerManager.data.punchForwardForce, 0), ForceMode2D.Impulse);
+        base.ShowHitBox(hitboxNumber);
         ApplyKnockBack(hitboxNumber);
-        _hitBoxOne.SetActive(true);
     }
 
     private void ApplyKnockBack(int punchCounter) 
@@ -66,9 +55,9 @@ public class HitManager : MonoBehaviour
         switch (punchCounter)
         {
             case <= 1:
-                _hitBoxOne.GetComponent<HitboxInfo>().ChangeKnockBack(_playerManager.data.comboPunchKB);
+                _hitBoxOne.GetComponent<HitboxInfo>().ChangeKnockBack(data.comboPunchKB);
                 break;
-            default: _hitBoxOne.GetComponent<HitboxInfo>().ChangeKnockBack(_playerManager.data.punchKB);
+            default: _hitBoxOne.GetComponent<HitboxInfo>().ChangeKnockBack(data.punchKB);
                 break;
         }
     }
@@ -76,7 +65,7 @@ public class HitManager : MonoBehaviour
     private void FinishCombo() 
     {
         _hitBoxOne.SetActive(false);
-        IsPunching = false;
+        IsAttacking = false;
         PunchCounter = 0;
     }
     private void FinishAnimation()

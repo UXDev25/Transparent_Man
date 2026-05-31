@@ -1,19 +1,10 @@
 fileFormatVersion: 2
-guid: 88d6604cc3c16914b9317d1767762783
+guid: d6835376abe3ab849a1edf6522b967e2
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -2510476293373519475
-    second: New Piskel_0
-  - first:
-      213: 627625725489826318
-    second: New Piskel_1
-  - first:
-      213: 6338068570567419226
-    second: New Piskel_2
-  - first:
-      213: -4309738878335270719
-    second: New Piskel_3
+      213: -1104891209373495065
+    second: Bigas_Idle_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -109,7 +100,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Bigas_Walk_0
+      name: Bigas_Idle_0
       rect:
         serializedVersion: 2
         x: 0
@@ -122,38 +113,16 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
-      spriteID: 175ed1542d0c85048b602680a0f800b8
-      internalID: -89845035
+      spriteID: 7e057dd8c43aaa0f0800000000000000
+      internalID: -1104891209373495065
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Bigas_Walk_1
-      rect:
-        serializedVersion: 2
-        x: 32
-        y: 32
-        width: 32
-        height: 32
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: ad47cb9840945f54986b853e02a1eefb
-      internalID: -1936413941
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Bigas_Walk_2
+      name: Bigas_Idle_1
       rect:
         serializedVersion: 2
         x: 0
@@ -168,30 +137,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 16eec2025773aef4cadb475a59ac8995
-      internalID: -1328250863
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Bigas_Walk_3
-      rect:
-        serializedVersion: 2
-        x: 32
-        y: 0
-        width: 32
-        height: 32
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: ed3baa6dfd112ce488b656744a782ac4
-      internalID: -1845423539
+      spriteID: b113ee66320f31647ab2a0e7d231d0a5
+      internalID: 1341537218
       vertices: []
       indices: 
       edges: []
@@ -200,7 +147,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: e350d1fe0fede8f4caa8c6d8ea2f4419
+    spriteID: e369fd9534ed8e44a83f5f372dcc9813
     internalID: 0
     vertices: []
     indices: 
@@ -212,10 +159,8 @@ TextureImporter:
       - key: SpriteEditor.SliceSettings
         value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":32.0,"y":32.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":1,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
-      Bigas_Walk_0: -89845035
-      Bigas_Walk_1: -1936413941
-      Bigas_Walk_2: -1328250863
-      Bigas_Walk_3: -1845423539
+      Bigas_Idle_0: -1104891209373495065
+      Bigas_Idle_1: 1341537218
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

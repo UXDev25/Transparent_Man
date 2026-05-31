@@ -100,4 +100,5 @@ public class EntityManager : MonoBehaviour
         Gizmos.DrawWireSphere(groundChecker.position, data.detectionRadius);
 
     }
+
 }
