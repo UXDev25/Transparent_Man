@@ -7,6 +7,7 @@ public class BigasAnimation : MonoBehaviour
     private static readonly int IsMidAirHash = Animator.StringToHash("isMidAir");
     private static readonly int IsStompingHash = Animator.StringToHash("isStomping");
     private static readonly int IsStunnedHash = Animator.StringToHash("isStunned");
+    private static readonly int StateHash = Animator.StringToHash("state");
     private BigasManager bigas;
     private Animator animator;
 
@@ -15,6 +16,7 @@ public class BigasAnimation : MonoBehaviour
     private bool isStunned;
     private bool isJumping;
     private bool isStomping;
+    private int state;
 
     void Start()
     {
@@ -24,15 +26,11 @@ public class BigasAnimation : MonoBehaviour
 
     void Update()
     {
-        isMidAir = false;   
+        isMidAir = !bigas.IsGrounded;   
         animator.SetBool(IsMidAirHash, isMidAir);
-        isWalking = !isStunned;
-        animator.SetBool(IsWalkingHash, isWalking);
         isStunned = bigas.IsStunned;
         animator.SetBool(IsStunnedHash, isStunned);
-        isStomping = bigas.IsStomping;
-        animator.SetBool(IsStompingHash, isStomping);
-        isJumping = bigas.IsJumping;
-        animator.SetBool(IsJumpingHash, isJumping);
+        state = (int)bigas.State;
+        animator.SetInteger(StateHash, state);
     }
 }

@@ -2,10 +2,15 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class PlayerHitManager : HitManager
+public class PlayerHitManager : MonoBehaviour, IHitSystem
 {
     private PlayerManager _playerManager;
     private InputAction inputActionPunch;
+    private GameObject _hitBoxOne;
+    private Rigidbody2D _rb;
+    [SerializeField] private Data data;
+
+    public bool IsAttacking { get; set; } = false;
     public int PunchCounter { get; private set; } = 0;
     private Animator _animator;
 
@@ -44,10 +49,17 @@ public class PlayerHitManager : HitManager
         }
     }
 
-    protected override void ShowHitBox(int hitboxNumber)
+    public void ShowHitBox(int hitboxNumber)
     {
-        base.ShowHitBox(hitboxNumber);
+        _rb.linearVelocityX = 0;
+        _hitBoxOne.SetActive(true);
+        _rb.AddForce(new Vector2(transform.localScale.x * data.punchForwardForce, 0), ForceMode2D.Impulse);
         ApplyKnockBack(hitboxNumber);
+    }
+
+    public void HideHitBox()
+    {
+        _hitBoxOne.SetActive(false);
     }
 
     private void ApplyKnockBack(int punchCounter) 

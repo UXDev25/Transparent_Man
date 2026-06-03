@@ -5,6 +5,7 @@ public class BigasManager : EnemyManager
     public bool IsJumping  = false;
     public bool IsStomping  = false;
     public bool IsWalking  = false;
+    public EBigasState State;
 
     // Update is called once per frame
     void FixedUpdate()
@@ -14,7 +15,7 @@ public class BigasManager : EnemyManager
         if (IsDead == EDeathState.Dying || data == null) return;
         if (Lives <= 0) Die();
         FlipDirection(isFacingRight);
-        raycastHit = Physics2D.Raycast(transform.position, Vector2.right * transform.localScale.x, data.wallRayCastSize, data.groundAndPlayerMask);
+        raycastHit = Physics2D.Raycast(transform.position, Vector2.right * -transform.localScale.x, data.wallRayCastSize, data.groundAndPlayerMask);
         if (raycastHit.collider != null && raycastHit.collider.tag != "HitBox")
         {
             isFacingRight = !isFacingRight;
@@ -22,24 +23,22 @@ public class BigasManager : EnemyManager
 
         if (!IsStunned && !IsStomping) 
         {
-            if (IsWalking) rb.linearVelocityX = data.MaxWalkSpeed * transform.localScale.x;
+            if (State == EBigasState.Walk || !IsGrounded) rb.linearVelocityX = data.MaxWalkSpeed * -transform.localScale.x;
         } 
     }
 
     void PreJump()
     {
-        IsWalking = false;
+        State = EBigasState.Jump;
     }
 
     void PerformJump() 
     {
-        IsWalking = true;
         rb.AddForce(Vector2.up.normalized * data.jumpForce, ForceMode2D.Impulse);
-        IsJumping = false;
     }
-    void EndStomp() 
-    { 
-        IsStomping = false;
+    void ChangeDirectionRandom() 
+    {
+        isFacingRight = UnityEngine.Random.Range(0, 2) == 0;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -47,6 +46,7 @@ public class BigasManager : EnemyManager
         if (collision.gameObject.tag == "HitBox")
         {
             Lives--;
+            if (Lives == data.maxLives / 2 || Lives == data.maxLives / 4 || Lives <= 0) Stun(collision.gameObject.transform.position);
         }
     }
 }

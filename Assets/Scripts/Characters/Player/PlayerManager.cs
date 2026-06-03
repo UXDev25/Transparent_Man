@@ -54,6 +54,7 @@ public class PlayerManager : EntityManager
 
     private void Update()
     {
+        if (GameManager.Instance.PauseCharacter) return;
         CheckCoyoteAndBufferTime();
         //setting run or walk state and its speed
         actMove = inputActionMove.ReadValue<Vector2>();
@@ -81,6 +82,12 @@ public class PlayerManager : EntityManager
 
     private void FixedUpdate()
     {
+        if (GameManager.Instance.PauseCharacter) 
+        {
+            rb.linearVelocity = Vector2.zero;
+            return;
+        }
+        
         if (IsDead == EDeathState.Dead) Destroy(gameObject);
         if (!deactivateGrounded) { GroundDetector(); }
         if (IsDead == EDeathState.Dying || data == null || !CanPlay) return;

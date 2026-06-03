@@ -47,9 +47,10 @@ GameObject:
   - component: {fileID: 4339786735542502490}
   - component: {fileID: 4751735961855540830}
   - component: {fileID: 9141580858750442978}
+  - component: {fileID: -751597437544307249}
   m_Layer: 0
   m_Name: Bigas
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -67,8 +68,8 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 2396874949220219971}
   - {fileID: 319115125758313355}
+  - {fileID: 2396874949220219971}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &1087524914642519278
@@ -140,7 +141,7 @@ BoxCollider2D:
   m_Enabled: 1
   serializedVersion: 3
   m_Density: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 2ca9f8ccde7a362439595b9065d4167c, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -214,7 +215,7 @@ Rigidbody2D:
   m_LinearDamping: 0
   m_AngularDamping: 0.05
   m_GravityScale: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 2ca9f8ccde7a362439595b9065d4167c, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -252,6 +253,11 @@ MonoBehaviour:
   data: {fileID: 11400000, guid: 927fae5cc0c96224ca2620c1c4c34c7b, type: 2}
   rb: {fileID: 4356101377612289237}
   groundChecker: {fileID: 319115125758313355}
+  enemySize: 1
+  IsJumping: 0
+  IsStomping: 0
+  IsWalking: 0
+  State: 0
 --- !u!114 &9141580858750442978
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -264,6 +270,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df93d9edb9855024c88999e8096a8399, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BigasHitManager
+  data: {fileID: 11400000, guid: 927fae5cc0c96224ca2620c1c4c34c7b, type: 2}
+--- !u!114 &-751597437544307249
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4438218618396306788}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0f2b9169681ee984492b71ca3552a4f3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BigasAi
 --- !u!1001 &1707047393813023552
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -273,12 +292,16 @@ PrefabInstance:
     m_TransformParent: {fileID: 2565221135356710572}
     m_Modifications:
     - target: {fileID: 3959736776472852227, guid: a15af9d4b21cc5946b8d037bd32de44f, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 4.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3959736776472852227, guid: a15af9d4b21cc5946b8d037bd32de44f, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.07511139
+      value: -0.5
       objectReference: {fileID: 0}
     - target: {fileID: 3959736776472852227, guid: a15af9d4b21cc5946b8d037bd32de44f, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.34267998
+      value: -0.76
       objectReference: {fileID: 0}
     - target: {fileID: 3959736776472852227, guid: a15af9d4b21cc5946b8d037bd32de44f, type: 3}
       propertyPath: m_LocalPosition.z
@@ -315,6 +338,10 @@ PrefabInstance:
     - target: {fileID: 8664275399691681536, guid: a15af9d4b21cc5946b8d037bd32de44f, type: 3}
       propertyPath: m_Name
       value: Hitbox
+      objectReference: {fileID: 0}
+    - target: {fileID: 8664275399691681536, guid: a15af9d4b21cc5946b8d037bd32de44f, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

@@ -22,6 +22,13 @@ public class PlayerAnimation : MonoBehaviour
 
     void Update()
     {
+        if (GameManager.Instance.PauseCharacter) 
+        {
+            animator.SetBool(IsWalkingHash, false);
+            animator.SetBool(IsMidAirHash, false);
+            animator.SetBool(IsStunnedHash, false);
+            return;
+        } 
         if (!player.IsStunned && player.CanPlay) FlipDirection();
         isWalking = !isMidAir && player.actMove.x != 0 && !hitManager.IsAttacking;
         animator.SetBool(IsWalkingHash, isWalking);

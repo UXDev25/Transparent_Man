@@ -1,6 +1,8 @@
 using System;
+using System.Collections;
 using Unity.Cinemachine;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -10,7 +12,17 @@ public class GameManager : MonoBehaviour
     [SerializeField] private CinemachineCamera _vcam;
     [SerializeField] private GameObject _playerPrefab;
     [SerializeField] private Transform _playerSpawn;
-    public CinemachineCamera VCam => _vcam; 
+
+    [Header("Search Config")]
+    [SerializeField] private string _targetScene = "SampleScene"; 
+    [SerializeField] private string _tagSearch = "Boss";
+
+    [Header("LevelEnd")]
+    [SerializeField] private float _finalHitTime = 2f;
+    public CinemachineCamera VCam => _vcam;
+
+    public bool PauseCharacter { get; private set; } = false;
+    public EntityManager Boss { get; private set; }
 
     private void Awake()
     {
@@ -23,4 +35,56 @@ public class GameManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
     }
 
+    private void Update()
+    {
+        if (Boss.IsDead == EDeathState.Dying) Win();
+    }
+
+    private void OnEnable()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    private void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        if (scene.name == _targetScene)
+        {
+            SearchForGameObject();
+        }
+    }
+
+    private void SearchForGameObject()
+    {
+        // Busquem l'objecte pel tag
+        GameObject foundObject = GameObject.FindWithTag(_tagSearch);
+
+        // 3. VALIDACIÓ I SEGURETAT (Per assegurar-nos al 100%)
+        if (foundObject != null)
+        {
+            Boss = foundObject.GetComponentInChildren<EntityManager>();
+            Debug.Log($"[GameManager] Èxit: S'ha trobat i assignat l'objecte amb el tag '{_tagSearch}' a l'escena '{_targetScene}'.");
+        }
+        else
+        {
+            // Si és null, fem saltar un error vermell a la consola per saber exactament què ha anat malament
+            Debug.LogError($"[GameManager] ERROR: No s'ha trobat cap objecte ACTIU amb el tag '{_tagSearch}' a l'escena '{_targetScene}'.");
+        }
+    }
+    private void Win() 
+    {
+        PauseCharacter = true;
+        StartCoroutine(FinalHitRoutine());
+    }
+
+    private IEnumerator FinalHitRoutine() 
+    {
+        Time.timeScale = 0.25f;
+        yield return new WaitForSecondsRealtime(_finalHitTime);
+        Time.timeScale = 1f;
+    }
 }
