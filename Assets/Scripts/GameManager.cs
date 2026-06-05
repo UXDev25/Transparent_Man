@@ -19,10 +19,17 @@ public class GameManager : MonoBehaviour
 
     [Header("LevelEnd")]
     [SerializeField] private float _finalHitTime = 2f;
+    [SerializeField] private float _waitBeforeWin = 3f;
+    public bool GameWon { get; private set; } 
     public CinemachineCamera VCam => _vcam;
 
     public bool PauseCharacter { get; private set; } = false;
     public EntityManager Boss { get; private set; }
+
+    public void ResetGame() 
+    {
+        GameWon = false;
+    }
 
     private void Awake()
     {
@@ -86,5 +93,7 @@ public class GameManager : MonoBehaviour
         Time.timeScale = 0.25f;
         yield return new WaitForSecondsRealtime(_finalHitTime);
         Time.timeScale = 1f;
+        yield return new WaitForSecondsRealtime(_waitBeforeWin);
+        GameWon = true;
     }
 }

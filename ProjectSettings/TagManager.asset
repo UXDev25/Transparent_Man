@@ -55,6 +55,9 @@ TagManager:
   - name: FrontDecoration
     uniqueID: 562859855
     locked: 0
+  - name: UI
+    uniqueID: 3423997981
+    locked: 0
   m_RenderingLayers:
   - Default
   - RenderDeath

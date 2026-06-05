@@ -5,6 +5,7 @@ public class PlayerAnimation : MonoBehaviour
     private static readonly int IsMidAirHash = Animator.StringToHash("isMidAir");
     private static readonly int IsWalkingHash = Animator.StringToHash("isWalking");
     private static readonly int IsStunnedHash = Animator.StringToHash("isStunned");
+    private static readonly int GameWonHash = Animator.StringToHash("gameWon");
     private PlayerManager player;
     private PlayerHitManager hitManager;
     private Animator animator;
@@ -36,6 +37,7 @@ public class PlayerAnimation : MonoBehaviour
         animator.SetBool(IsMidAirHash, isMidAir);
         isStunned = player.IsStunned;
         animator.SetBool(IsStunnedHash, isStunned);
+        animator.SetBool(GameWonHash, GameManager.Instance.GameWon);
         //Debug.Log($"is walking: {isWalking}, isMidAir: {isMidAir}");
     }
 

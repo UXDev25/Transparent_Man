@@ -5,8 +5,6 @@ public class MainMenuManager : MonoBehaviour
 {
     [Header("Paneles")]
     [SerializeField] private GameObject mainMenu_Panel;
-    [SerializeField] private GameObject options_Panel;
-    [SerializeField] private GameObject credits_Panel;
     [SerializeField] private GameObject exit_Panel;
 
     private Animator fundido_A_Negro;
@@ -15,10 +13,8 @@ public class MainMenuManager : MonoBehaviour
     void Start()
     {
         fundido_A_Negro = GetComponent<Animator>();
-
+        GameManager.Instance.ResetGame();
         mainMenu_Panel.SetActive(true);
-        options_Panel.SetActive(false);
-        credits_Panel.SetActive(false);
         exit_Panel.SetActive(false);
     }
 
@@ -42,21 +38,6 @@ public class MainMenuManager : MonoBehaviour
         SceneManager.LoadScene("SampleScene");
     }
 
-    // -- Opciones --
-    public void Options_Button()
-    {
-        mainMenu_Panel.SetActive(false);
-        options_Panel.SetActive(true);
-        credits_Panel.SetActive(false);
-    }
-
-    // -- Creditos --
-    public void Credits_Button()
-    {
-        mainMenu_Panel.SetActive(false);
-        options_Panel.SetActive(false);
-        credits_Panel.SetActive(true);
-    }
 
     // -- Slair del juego --
     public void Exit_Button()
@@ -78,7 +59,5 @@ public class MainMenuManager : MonoBehaviour
     public void Back_Button()
     {
         mainMenu_Panel.SetActive(true);
-        options_Panel.SetActive(false);
-        credits_Panel.SetActive(false);
     }
 }
