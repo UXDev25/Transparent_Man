@@ -1,5 +1,6 @@
 using Unity.Cinemachine;
 using UnityEngine;
+using UnityEngine.Experimental.GlobalIllumination;
 
 [CreateAssetMenu(fileName = "Data", menuName = "Scriptable Objects/Data")]
 public class Data : ScriptableObject
@@ -15,7 +16,7 @@ public class Data : ScriptableObject
     public string groundMaskHash = "Ground";
     public float detectionRadius = 0.2f;
 
-    [Header("PlayerPhysics")]
+    [Header("EntityPhysics")]
     public float MaxRunSpeed = 12;
     public float MaxWalkSpeed = 6;
     public float acceleration = 500f;
@@ -27,10 +28,16 @@ public class Data : ScriptableObject
     public float maxJumpAccum = 5;
     public float selfStunKnockBackX = 5;
     public float selfStunKnockBackY = 3;
+    public float punchForwardForce = 2;
+
+    [Header("KnockBacks")]
+    public Vector2 comboPunchKB = new Vector2(5, 3);
+    public Vector2 punchKB = new Vector2(5, 3);
 
     [Header("Times & Cooldowns")]
     public float maxTimeAccum = 1;
     public float jumpMultAccum = 0.25f;
+    public float ungroundTime = 0.5f;
 
     [Header("Life And Others")]
     public int maxLives = 3;

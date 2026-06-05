@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: -600970681721666578}
   - component: {fileID: -850769594402817191}
   - component: {fileID: 4542388661533515180}
-  - component: {fileID: 4167758920274650582}
+  - component: {fileID: 3980206025863342416}
   m_Layer: 0
   m_Name: Rollon
   m_TagString: Enemy
@@ -84,8 +84,8 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 562859855
+  m_SortingLayer: 1
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Sprite: {fileID: -4953291873117512711, guid: ce60d2a0ec661e94ea97aad329139f64, type: 3}
@@ -205,10 +205,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5526983b682aa5840a138c2bed44a24a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RollonManager
-  _data: {fileID: 11400000, guid: 96c4b5cd5c8222c458b11e7d61b0071b, type: 2}
-  _groundChecker: {fileID: 8484358670555325976}
+  data: {fileID: 11400000, guid: 96c4b5cd5c8222c458b11e7d61b0071b, type: 2}
+  rb: {fileID: -600970681721666578}
+  groundChecker: {fileID: 8484358670555325976}
   _edgeChecker: {fileID: 2342018291234948806}
---- !u!114 &4167758920274650582
+--- !u!114 &3980206025863342416
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -217,11 +218,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 5856140576321734015}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 60429f077e6ad89458b5b630174f49f0, type: 3}
+  m_Script: {fileID: 11500000, guid: a9f5ca82475d26d45aadfadc2109d683, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::EnemyManager
-  _data: {fileID: 11400000, guid: 96c4b5cd5c8222c458b11e7d61b0071b, type: 2}
-  _groundChecker: {fileID: 8484358670555325976}
+  m_EditorClassIdentifier: Assembly-CSharp::RollonAnimation
 --- !u!1 &6161587759704676417
 GameObject:
   m_ObjectHideFlags: 0

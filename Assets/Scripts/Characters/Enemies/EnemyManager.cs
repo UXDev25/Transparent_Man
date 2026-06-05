@@ -1,27 +1,13 @@
 using UnityEngine;
 
-public class EnemyManager : MonoBehaviour
+public class EnemyManager : EntityManager
 {
-    [SerializeField] private Data _data;
-    [SerializeField] private Transform _groundChecker;
-    private Rigidbody2D _rb;
-    private RaycastHit2D _raycastHit;
-    public bool IsOnGround { get; private set; }
-    void Start()
-    {
-        _rb = GetComponent<Rigidbody2D>();
-    }
+    protected bool isFacingRight = true;
+    protected RaycastHit2D raycastHit;
+    [SerializeField] float enemySize = 1;
 
-    private void FixedUpdate()
+    protected void FlipDirection(bool enemyCondition)
     {
-        
-    }
-
-    
-    private void OnDrawGizmos()
-    {
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(_groundChecker.position, _data.detectionRadius);
-        
+        transform.localScale = enemyCondition ? new Vector3(enemySize, enemySize, 1) : new Vector3(-enemySize, enemySize, 1);
     }
 }

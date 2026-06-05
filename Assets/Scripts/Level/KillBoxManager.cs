@@ -8,14 +8,13 @@ public class KillBoxManager : MonoBehaviour
     public void OnTriggerEnter2D(Collider2D collision)
     {
         Debug.Log("Collisioned");
-        if (collision.gameObject.tag == "Player")
+        if (collision.gameObject.tag == "Player" || collision.gameObject.tag == "Enemy")
         {
             Debug.Log("Dying");
-            if (collision.TryGetComponent(out PlayerManager player)) 
+            if (collision.TryGetComponent(out EntityManager entity)) 
             {
-                player.Die();
+                entity.Die();
             }
-            GameManager.Instance.VCam.Follow = null;
         }
     }
 }

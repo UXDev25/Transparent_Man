@@ -1,0 +1,46 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e4731481f3c91c64ea5fe5fa8758dcbe, type: 3}
+  m_Name: Data
+  m_EditorClassIdentifier: Assembly-CSharp::Data
+  gravityMult: 1.5
+  terminalVel: 100
+  DeathMaskHash: Death
+  LifeMaskHash: Default
+  groundMask:
+    serializedVersion: 2
+    m_Bits: 8
+  groundMaskHash: Ground
+  detectionRadius: 0.2
+  MaxRunSpeed: 12
+  MaxWalkSpeed: 7
+  acceleration: 500
+  deceleration: 340
+  velPower: 6
+  jumpForce: 10
+  coyoteTime: 0.15
+  jumpBufferTime: 0.15
+  maxJumpAccum: 5
+  selfStunKnockBackX: 10
+  selfStunKnockBackY: 10
+  punchForwardForce: 15
+  comboPunchKB: {x: 5, y: 3}
+  punchKB: {x: 5, y: 3}
+  maxTimeAccum: 1
+  jumpMultAccum: 0.25
+  ungroundTime: 0.5
+  maxLives: 1
+  wallRayCastSize: 1
+  groundAndPlayerMask:
+    serializedVersion: 2
+    m_Bits: 520
+  playerTag: Player

@@ -5,39 +5,37 @@ public class PlayerAnimation : MonoBehaviour
     private static readonly int IsMidAirHash = Animator.StringToHash("isMidAir");
     private static readonly int IsWalkingHash = Animator.StringToHash("isWalking");
     private static readonly int IsStunnedHash = Animator.StringToHash("isStunned");
-    private static readonly int IsPunchingHash = Animator.StringToHash("isPunching");
-    private static readonly int punchCounterHash = Animator.StringToHash("punchCounter");
     private PlayerManager player;
-    private Rigidbody2D playerRb;
+    private PlayerHitManager hitManager;
     private Animator animator;
-    private HitManager hitManager;
 
     private bool isMidAir;
     private bool isWalking;
     private bool isStunned;
-    private bool isPunching;
-    private int punchCounter;
 
     void Start()
     {
         player = GetComponent<PlayerManager>();
         animator = GetComponent<Animator>();
-        playerRb = GetComponent<Rigidbody2D>();
-        hitManager = GetComponent<HitManager>();
+        hitManager = GetComponent<PlayerHitManager>();
     }
 
     void Update()
     {
-        if (!player.IsStunned) FlipDirection();
-        isWalking = !isMidAir && player.actMove.x != 0;
+        if (GameManager.Instance.PauseCharacter) 
+        {
+            animator.SetBool(IsWalkingHash, false);
+            animator.SetBool(IsMidAirHash, false);
+            animator.SetBool(IsStunnedHash, false);
+            return;
+        } 
+        if (!player.IsStunned && player.CanPlay) FlipDirection();
+        isWalking = !isMidAir && player.actMove.x != 0 && !hitManager.IsAttacking;
         animator.SetBool(IsWalkingHash, isWalking);
         isMidAir = !player.IsGrounded;
         animator.SetBool(IsMidAirHash, isMidAir);
         isStunned = player.IsStunned;
         animator.SetBool(IsStunnedHash, isStunned);
-        isPunching = hitManager.IsPunching;
-        animator.SetBool(IsPunchingHash, isPunching);
-        animator.SetInteger(punchCounterHash, hitManager.PunchCounter);
         //Debug.Log($"is walking: {isWalking}, isMidAir: {isMidAir}");
     }
 
