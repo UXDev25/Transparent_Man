@@ -45,6 +45,7 @@ public class BigasManager : EnemyManager
     {
         if (collision.gameObject.tag == "HitBox")
         {
+            ChangeHitColor();
             Lives--;
             if (Lives == data.maxLives / 2 || Lives == data.maxLives / 4 || Lives <= 0) Stun(collision.gameObject.transform.position);
         }

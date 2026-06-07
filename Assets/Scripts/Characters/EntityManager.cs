@@ -17,13 +17,15 @@ public class EntityManager : MonoBehaviour
 
     //Components
     public Rigidbody2D rb;
+    protected SpriteRenderer spriteRenderer;
     [SerializeField] protected Transform groundChecker;
 
 
-    void Start()
+    protected virtual void Start()
     {
         Lives = data.maxLives;
         animator = GetComponent<Animator>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
     protected virtual void GroundDetector()
@@ -101,4 +103,15 @@ public class EntityManager : MonoBehaviour
 
     }
 
+    protected void ChangeHitColor()
+    {
+        StartCoroutine(ReturnToColor());
+    }
+
+    private IEnumerator ReturnToColor() 
+    {
+        spriteRenderer.color = data.hitColor;
+        yield return new WaitForSeconds(data.hitColorDuration);
+        spriteRenderer.color = Color.white;
+    }
 }

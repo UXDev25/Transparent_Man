@@ -32,8 +32,9 @@ public class PlayerManager : EntityManager
         inputActionJump = InputSystem.actions.FindAction("Jump");
     }
 
-    void Start()
+    protected override void Start()
     {
+        base.Start();
         gameObject.layer = LayerMask.NameToLayer(data.LifeMaskHash);
         spawnPoint = GameObject.FindGameObjectWithTag("SpawnPoint").transform;
         ResetPlayer();
@@ -173,7 +174,10 @@ public class PlayerManager : EntityManager
         EnemyManager enemy = collision.gameObject.GetComponent<EnemyManager>();   
         if (enemy != null && enemy.tag == "Enemy" && !IsStunned && !enemy.IsStunned)
         {
+            ChangeHitColor();
             Stun(collision.gameObject.transform.position);
         }
     }
+
+
 }

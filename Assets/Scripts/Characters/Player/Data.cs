@@ -41,6 +41,8 @@ public class Data : ScriptableObject
 
     [Header("Life And Others")]
     public int maxLives = 3;
+    public Color hitColor = Color.red;
+    public float hitColorDuration = 0.1f;
 
     [Header("Enemies")]
     public float wallRayCastSize = 0.5f;
