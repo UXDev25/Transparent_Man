@@ -39,6 +39,7 @@ public class RollonManager : EnemyManager
     {
         if (collision.gameObject.tag == "HitBox")
         {
+            ChangeHitColor();
             Stun(collision.gameObject.transform.GetChild(0).position, collision.gameObject.GetComponent<HitboxInfo>().KnockBack);
         }
     }
