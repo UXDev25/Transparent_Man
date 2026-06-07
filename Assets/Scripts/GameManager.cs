@@ -61,6 +61,13 @@ public class GameManager : MonoBehaviour
     {
         if (scene.name == _targetScene)
         {
+            GameWon = false;
+            PauseCharacter = false;
+            _vcam = FindAnyObjectByType<CinemachineCamera>();
+            if (_vcam == null)
+            {
+                Debug.LogWarning("[GameManager] Atenció: No s'ha trobat cap CinemachineCamera a l'escena.");
+            }
             SearchForGameObject();
         }
     }

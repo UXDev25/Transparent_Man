@@ -15689,7 +15689,6 @@ GameObject:
   - component: {fileID: 1595387872}
   - component: {fileID: 1595387871}
   - component: {fileID: 1595387870}
-  - component: {fileID: 1595387869}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -15697,18 +15696,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1595387869
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1595387868}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 93b3cdac67994b7418b14f82d26b0153, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::DontDestroyOnLoad
 --- !u!114 &1595387870
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17723,6 +17710,10 @@ PrefabInstance:
     - target: {fileID: 8038105225484858432, guid: 00a655a8a9060d845b78538f3b251590, type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8038105225484858432, guid: 00a655a8a9060d845b78538f3b251590, type: 3}
+      propertyPath: m_TagString
+      value: Enemy
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

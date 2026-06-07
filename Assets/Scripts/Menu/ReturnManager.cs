@@ -35,6 +35,10 @@ public class ReturnManager : MonoBehaviour
     public void Return_Button()
     {
         Debug.Log("MainMenu");
+        if (GameManager.Instance != null)
+        {
+            Destroy(GameManager.Instance.gameObject);
+        }
         SceneManager.LoadScene("MainMenu");
     }
 
