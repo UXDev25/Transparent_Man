@@ -54,11 +54,13 @@ public class PlayerManager : EntityManager
     }
     public void ResetPlayer()
     {
-        while (_lives <= data.maxLives) 
+        int i = 0;
+        while (i <= data.maxLives) 
         {
             GameObject lifePref = Instantiate(_lifeIconPrefab, _lifePlace.transform);
             RectTransform rectPrefTrans = lifePref.GetComponent<RectTransform>();
             rectPrefTrans.position = new Vector3(rectPrefTrans.position.x + data.lifeUiSeparator, rectPrefTrans.position.y, rectPrefTrans.position.z);
+            i++;
         }
         _audioManager.StartMusic();
         transform.position = spawnPoint.position;
