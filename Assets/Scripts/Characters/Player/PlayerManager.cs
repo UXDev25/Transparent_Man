@@ -41,6 +41,7 @@ public class PlayerManager : EntityManager
     }
     public void ResetPlayer()
     {
+        _audioManager.StartMusic();
         transform.position = spawnPoint.position;
         gameObject.layer = LayerMask.NameToLayer(data.LifeMaskHash);
         Lives = data.maxLives;
@@ -112,6 +113,7 @@ public class PlayerManager : EntityManager
 
     protected override IEnumerator DyingRoutine()
     {
+        _audioManager.FadeOutMusic();
         yield return new WaitForSeconds(3);
         Debug.Log("Fully dead");
         IsDead = EDeathState.Dead;
@@ -178,6 +180,14 @@ public class PlayerManager : EntityManager
             Stun(collision.gameObject.transform.position);
         }
     }
-
+    protected override void OnTriggerEnter2D(Collider2D collision)
+    {
+        base.OnTriggerEnter2D(collision);
+        if (collision.gameObject.CompareTag("BigasArea"))
+        {
+            _audioManager.StartBigasMusic();
+            Destroy(collision.gameObject);
+        }
+    }
 
 }

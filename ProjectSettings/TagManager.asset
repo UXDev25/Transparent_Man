@@ -9,6 +9,8 @@ TagManager:
   - Enemy
   - HitBox
   - Boss
+  - Audio
+  - BigasArea
   layers:
   - Default
   - TransparentFX

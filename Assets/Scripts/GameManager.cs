@@ -20,7 +20,8 @@ public class GameManager : MonoBehaviour
     [Header("LevelEnd")]
     [SerializeField] private float _finalHitTime = 2f;
     [SerializeField] private float _waitBeforeWin = 3f;
-    public bool GameWon { get; private set; } 
+    public bool GameWon { get; private set; }
+    public bool PreGameWon { get; private set; }
     public CinemachineCamera VCam => _vcam;
 
     public bool PauseCharacter { get; private set; } = false;
@@ -29,6 +30,9 @@ public class GameManager : MonoBehaviour
     public void ResetGame() 
     {
         GameWon = false;
+        PreGameWon = false;
+        PauseCharacter = false;
+        Time.timeScale = 1f;
     }
 
     private void Awake()
@@ -61,8 +65,7 @@ public class GameManager : MonoBehaviour
     {
         if (scene.name == _targetScene)
         {
-            GameWon = false;
-            PauseCharacter = false;
+            ResetGame();
             _vcam = FindAnyObjectByType<CinemachineCamera>();
             if (_vcam == null)
             {
@@ -91,6 +94,7 @@ public class GameManager : MonoBehaviour
     }
     private void Win() 
     {
+        PreGameWon = true;
         PauseCharacter = true;
         StartCoroutine(FinalHitRoutine());
     }

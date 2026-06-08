@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 
@@ -19,13 +20,14 @@ public class EntityManager : MonoBehaviour
     public Rigidbody2D rb;
     protected SpriteRenderer spriteRenderer;
     [SerializeField] protected Transform groundChecker;
-
+    protected AudioManager _audioManager;
 
     protected virtual void Start()
     {
         Lives = data.maxLives;
         animator = GetComponent<Animator>();
         spriteRenderer = GetComponent<SpriteRenderer>();
+        _audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
     }
 
     protected virtual void GroundDetector()
@@ -113,5 +115,15 @@ public class EntityManager : MonoBehaviour
         spriteRenderer.color = data.hitColor;
         yield return new WaitForSeconds(data.hitColorDuration);
         spriteRenderer.color = Color.white;
+    }
+
+    protected virtual void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag("HitBox"))
+        {
+            _audioManager.PlayHitSFX();
+            ChangeHitColor();
+            Stun(collision.gameObject.transform.GetChild(0).position, collision.gameObject.GetComponent<HitboxInfo>().KnockBack);
+        }
     }
 }

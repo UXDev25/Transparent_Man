@@ -38,7 +38,9 @@ MonoBehaviour:
   maxTimeAccum: 1
   jumpMultAccum: 0.25
   ungroundTime: 0.5
-  maxLives: 1
+  maxLives: 30
+  hitColor: {r: 1, g: 0, b: 0, a: 1}
+  hitColorDuration: 0.1
   wallRayCastSize: 1
   groundAndPlayerMask:
     serializedVersion: 2

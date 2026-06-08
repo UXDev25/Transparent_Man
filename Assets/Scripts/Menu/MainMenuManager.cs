@@ -13,9 +13,8 @@ public class MainMenuManager : MonoBehaviour
     void Start()
     {
         fundido_A_Negro = GetComponent<Animator>();
-        GameManager.Instance.ResetGame();
         mainMenu_Panel.SetActive(true);
-        exit_Panel.SetActive(false);
+        exit_Panel.SetActive(true);
     }
 
     void Update()

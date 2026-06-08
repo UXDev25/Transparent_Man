@@ -41,7 +41,7 @@ public class BigasManager : EnemyManager
         isFacingRight = UnityEngine.Random.Range(0, 2) == 0;
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    protected override void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.tag == "HitBox")
         {
