@@ -3,65 +3,73 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class PlayerManager : MonoBehaviour
+public class PlayerManager : EntityManager
 {
-    public Data Data;
+    
 
     //Inputs
     private InputAction inputActionMove;
     private InputAction inputActionJump;
-    private InputAction inputActionRun;
-    private InputAction inputActionInteract;
 
     //Player
-    public bool CanPlay { get; private set; }
-    public bool IsRunning { get; private set; }
-    public bool IsGrounded { get; private set; }
-    public Vector2 actMove { get; private set; }
-
-    private EDeathState _isDead;
-    public void SetIsDead(EDeathState playerState) => _isDead = playerState;
-
-    private bool jumped;
-    private float moveSpeed;
     private float coyoteTimeCounter;
-    private float jumpBufferCounter;
-    private Transform spawnPoint;
+    public bool CanPlay { get; private set; }
+    public Vector2 actMove { get; private set; }
+    public bool jumped { get; private set; }
+    public float jumpBufferCounter { get; private set; }
+
+
+    //Setters
+    public void SetJumped(bool jumpedPar) => jumped = jumpedPar;
+    public void SetCanPlay(bool canPlay) => CanPlay = canPlay;
+    public void SetBufferCounter(float counter) => jumpBufferCounter = counter;
 
     //Components
-    [SerializeField] private Rigidbody2D rb;
-    [SerializeField] private Transform groundChecker;
+    private Transform spawnPoint;
 
     private void Awake()
     {
         inputActionMove = InputSystem.actions.FindAction("Move");
         inputActionJump = InputSystem.actions.FindAction("Jump");
-        inputActionRun = InputSystem.actions.FindAction("Sprint");
-        inputActionInteract = InputSystem.actions.FindAction("Interact");
     }
 
-    void Start()
+    protected override void Start()
     {
+        base.Start();
+        gameObject.layer = LayerMask.NameToLayer(data.LifeMaskHash);
         spawnPoint = GameObject.FindGameObjectWithTag("SpawnPoint").transform;
-        rb = GetComponent<Rigidbody2D>();
         ResetPlayer();
     }
     public void ResetPlayer()
     {
+        Lives = data.maxLives;
+        _audioManager.StartMusic();
         transform.position = spawnPoint.position;
-        _isDead = EDeathState.Alive;
+        gameObject.layer = LayerMask.NameToLayer(data.LifeMaskHash);
+        IsDead = EDeathState.Alive;
         CanPlay = true;
+        IsStunned = false;
+        deactivateGrounded = false;
         rb.simulated = true;
         GameManager.Instance.VCam.Follow = transform;
+        GameManager.Instance.ResetGame();
     }
 
 
     private void Update()
     {
+        if (GameManager.Instance.PauseCharacter) return;
+        CheckCoyoteAndBufferTime();
+        //setting run or walk state and its speed
+        actMove = inputActionMove.ReadValue<Vector2>();
+    }
+
+    public void CheckCoyoteAndBufferTime() 
+    {
         #region coyoteTime
         if (inputActionJump.WasPressedThisFrame())
         {
-            jumpBufferCounter = Data.jumpBufferTime;
+            jumpBufferCounter = data.jumpBufferTime;
         }
         else jumpBufferCounter -= Time.deltaTime;
 
@@ -69,78 +77,119 @@ public class PlayerManager : MonoBehaviour
         {
             jumped = true;
             jumpBufferCounter = 0f;
+            coyoteTimeCounter = 0f;
         }
 
         if (inputActionJump.WasReleasedThisFrame()) coyoteTimeCounter = 0;
         #endregion
-        //setting run or walk state and its speed
-        actMove = inputActionMove.ReadValue<Vector2>();
-        IsRunning = inputActionRun.IsPressed() && IsGrounded;
-        moveSpeed = IsRunning ? Data.MaxRunSpeed : Data.MaxWalkSpeed;
     }
 
     private void FixedUpdate()
     {
-        if (_isDead == EDeathState.Dead) Destroy(gameObject);
-        if (Data == null || !CanPlay) return;
-        if (_isDead == EDeathState.Dying) 
+        if (GameManager.Instance.PauseCharacter) 
         {
-            Debug.Log("Dying in fixedupdate");
-            Die();
+            rb.linearVelocity = Vector2.zero;
+            return;
         }
-        GroundDetector();
+        
+        if (IsDead == EDeathState.Dead) Destroy(gameObject);
+        if (!deactivateGrounded) { GroundDetector(); }
+        if (IsDead == EDeathState.Dying || data == null || !CanPlay) return;
+        if (Lives <= 0) Die();
         Move();
         if (jumped)
         {
-            Jump();
-            jumped = false;
+            Jump(1);
         }
-        if (IsGrounded)
+        if (IsGrounded && rb.linearVelocity.y <= 0.1f)
         {
             rb.gravityScale = 1;
-            coyoteTimeCounter = Data.coyoteTime;
+            if (!jumped) coyoteTimeCounter = data.coyoteTime;
         }
         else
         {
             coyoteTimeCounter -= Time.fixedDeltaTime;
-            if (rb.linearVelocity.y < 0) MultiplyGravity();
+            if (rb.linearVelocity.y < 0 && coyoteTimeCounter < 0f) MultiplyGravity();
         }
     }
 
-    private IEnumerator DyingRoutine()
+    protected override IEnumerator DyingRoutine()
     {
-        yield return new WaitForSeconds(1);
-        rb.simulated = false;
-        yield return new WaitForSeconds(2);
+        _audioManager.FadeOutMusic();
+        yield return new WaitForSeconds(3);
         Debug.Log("Fully dead");
-
-        _isDead = EDeathState.Dead;
+        IsDead = EDeathState.Dead;
         ResetPlayer();
     }
-    public void Die()
+    public override void Die()
     {
-        _isDead = EDeathState.Dying;
+
+        IsStunned = true;
         CanPlay = false;
+        GameManager.Instance.VCam.Follow = null;
+        gameObject.layer = LayerMask.NameToLayer(data.DeathMaskHash);
+        Debug.Log(gameObject.layer.ToString());
+        IsDead = EDeathState.Dying;
+        
         Debug.Log("Dying start");
         StartCoroutine(DyingRoutine());
     }
 
     private void Move()
     {
-        float targetSpeed = actMove.x * moveSpeed;
+        float targetSpeed = actMove.x * data.MaxWalkSpeed;
         float speedDif = targetSpeed - rb.linearVelocity.x;
-        float accelRate = (Mathf.Abs(targetSpeed) > 0.01f) ? Data.acceleration : Data.deceleration;
+        float accelRate = (Mathf.Abs(targetSpeed) > 0.01f) ? data.acceleration : data.deceleration;
         float movement = speedDif * accelRate;
         rb.AddForce(movement * Vector2.right.normalized);
     }
 
-    private void Jump() => rb.AddForce(Vector2.up.normalized * Data.jumpForce, ForceMode2D.Impulse);
+    public void Jump(float jumpMult) 
+    {
+        rb.AddForce(Vector2.up.normalized * data.jumpForce * jumpMult, ForceMode2D.Impulse);
+        if (jumped) jumped = false;
+        coyoteTimeCounter = 0;
+    }
 
-    private void GroundDetector() => IsGrounded = Physics2D.OverlapCircle(groundChecker.position, Data.detectionRadius, Data.groundMask);
+    protected override void GroundDetector() 
+    {
+        IsGrounded = Physics2D.OverlapCircle(groundChecker.position, data.detectionRadius, data.groundMask);
+        if (IsGrounded && IsStunned) 
+        {
+            Debug.Log("grounded && stunned");
+            IsStunned = false;
+            CanPlay = true;
+        } 
+    } 
 
     private void MultiplyGravity()
     {
-        rb.gravityScale = Data.gravityMult;
-        rb.linearVelocity = new Vector2(rb.linearVelocity.x, Mathf.Max(rb.linearVelocity.y, -Data.terminalVel));
+        rb.gravityScale = data.gravityMult;
+        rb.linearVelocity = new Vector2(rb.linearVelocity.x, Mathf.Max(rb.linearVelocity.y, -data.terminalVel));
     }
+
+    protected override void Stun(Vector3 enemyPos) 
+    {
+        base.Stun(enemyPos);
+        CanPlay = false;
+    }
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        EnemyManager enemy = collision.gameObject.GetComponent<EnemyManager>();   
+        if (enemy != null && enemy.tag == "Enemy" && !IsStunned && !enemy.IsStunned)
+        {
+            _audioManager.PlayHitSFX();
+            ChangeHitColor();
+            Stun(collision.gameObject.transform.position);
+        }
+    }
+    protected override void OnTriggerEnter2D(Collider2D collision)
+    {
+        base.OnTriggerEnter2D(collision);
+        if (collision.gameObject.CompareTag("BigasArea"))
+        {
+            _audioManager.StartBigasMusic();
+        }
+    }
+
 }

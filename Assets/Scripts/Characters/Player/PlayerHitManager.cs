@@ -1,0 +1,86 @@
+using Unity.VisualScripting;
+using UnityEngine;
+using UnityEngine.InputSystem;
+
+public class PlayerHitManager : MonoBehaviour, IHitSystem
+{
+    private PlayerManager _playerManager;
+    private InputAction inputActionPunch;
+    private GameObject _hitBoxOne;
+    private Rigidbody2D _rb;
+    [SerializeField] private Data data;
+
+    public bool IsAttacking { get; set; } = false;
+    public int PunchCounter { get; private set; } = 0;
+    private Animator _animator;
+
+    void Start()
+    {
+        inputActionPunch = InputSystem.actions.FindAction("Punch");
+        _animator = GetComponent<Animator>();
+        _hitBoxOne = transform.GetChild(1).gameObject;
+        _playerManager = GetComponent<PlayerManager>();
+        _rb = GetComponent<Rigidbody2D>();
+    }
+
+    void Update()
+    {
+        Combo();
+    }
+
+    private void Combo() 
+    { 
+        if (inputActionPunch.WasPressedThisFrame() && !IsAttacking && _playerManager.IsGrounded && !GameManager.Instance.PreGameWon)
+        {
+            _rb.linearVelocityX = 0;
+            _playerManager.SetCanPlay(false);
+            IsAttacking = true;
+            _animator.SetTrigger(""+PunchCounter);
+        }
+    }
+
+    private void StartCombo() 
+    {
+        IsAttacking = false;
+        if (PunchCounter < 2)
+        {
+            PunchCounter++;
+        }
+    }
+
+    public void ShowHitBox(int hitboxNumber)
+    {
+        _rb.linearVelocityX = 0;
+        _hitBoxOne.SetActive(true);
+        _rb.AddForce(new Vector2(transform.localScale.x * data.punchForwardForce, 0), ForceMode2D.Impulse);
+        ApplyKnockBack(hitboxNumber);
+    }
+
+    public void HideHitBox()
+    {
+        _hitBoxOne.SetActive(false);
+    }
+
+    private void ApplyKnockBack(int punchCounter) 
+    { 
+        switch (punchCounter)
+        {
+            case <= 1:
+                _hitBoxOne.GetComponent<HitboxInfo>().ChangeKnockBack(data.comboPunchKB);
+                break;
+            default: _hitBoxOne.GetComponent<HitboxInfo>().ChangeKnockBack(data.punchKB);
+                break;
+        }
+    }
+
+    private void FinishCombo() 
+    {
+        _hitBoxOne.SetActive(false);
+        IsAttacking = false;
+        PunchCounter = 0;
+    }
+    private void FinishAnimation()
+    {
+        _playerManager.SetCanPlay(true);
+    }
+}

@@ -22,6 +22,10 @@ public class BackgroundParallax : MonoBehaviour
     {
         if (_player != null) 
         {
+            if (_player.GetComponent<PlayerManager>().IsDead == EDeathState.Dying) 
+            {
+                return;
+            }
             _offset = ((_playerRb.linearVelocity.x + _baseMovementMult) * _movementSpeedMultiplier) * _movementSpeed * Time.deltaTime;
             _material.mainTextureOffset += _offset;
             transform.position = new Vector2(_player.transform.position.x, transform.position.y);

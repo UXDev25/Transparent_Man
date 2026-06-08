@@ -4,31 +4,40 @@ public class PlayerAnimation : MonoBehaviour
 {
     private static readonly int IsMidAirHash = Animator.StringToHash("isMidAir");
     private static readonly int IsWalkingHash = Animator.StringToHash("isWalking");
-    private static readonly int IsRunningHash = Animator.StringToHash("isRunning");
+    private static readonly int IsStunnedHash = Animator.StringToHash("isStunned");
+    private static readonly int GameWonHash = Animator.StringToHash("gameWon");
     private PlayerManager player;
-    private Rigidbody2D playerRb;
+    private PlayerHitManager hitManager;
     private Animator animator;
 
     private bool isMidAir;
     private bool isWalking;
-    private bool isRunning;
+    private bool isStunned;
 
     void Start()
     {
         player = GetComponent<PlayerManager>();
         animator = GetComponent<Animator>();
-        playerRb = GetComponent<Rigidbody2D>();
+        hitManager = GetComponent<PlayerHitManager>();
     }
 
     void Update()
     {
-        FlipDirection();
-        isWalking = !isMidAir && !player.IsRunning && player.actMove.x != 0;
+        if (GameManager.Instance.PauseCharacter) 
+        {
+            animator.SetBool(IsWalkingHash, false);
+            animator.SetBool(IsMidAirHash, false);
+            animator.SetBool(IsStunnedHash, false);
+            return;
+        } 
+        if (!player.IsStunned && player.CanPlay) FlipDirection();
+        isWalking = !isMidAir && player.actMove.x != 0 && !hitManager.IsAttacking;
         animator.SetBool(IsWalkingHash, isWalking);
-        isRunning = !isMidAir && player.IsRunning && player.actMove.x != 0;
-        animator.SetBool(IsRunningHash, isRunning);
         isMidAir = !player.IsGrounded;
         animator.SetBool(IsMidAirHash, isMidAir);
+        isStunned = player.IsStunned;
+        animator.SetBool(IsStunnedHash, isStunned);
+        animator.SetBool(GameWonHash, GameManager.Instance.GameWon);
         //Debug.Log($"is walking: {isWalking}, isMidAir: {isMidAir}");
     }
 
