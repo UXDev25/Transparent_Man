@@ -9,7 +9,7 @@ public class EntityManager : MonoBehaviour
     public bool IsStunned { get; protected set; }
     public bool IsGrounded { get; protected set; }
     public EDeathState IsDead { get; protected set; }
-    public int Lives { get; protected set; }
+    public virtual int Lives { get; protected set; }
     //Setters
     public void SetIsDead(EDeathState playerState) => IsDead = playerState;
 
@@ -58,7 +58,6 @@ public class EntityManager : MonoBehaviour
     {
         Vector2 direction = enemyPos - transform.position;
         float pseudoDirection = -Mathf.Sign(direction.x);
-        Debug.Log(pseudoDirection);
         rb.AddForce(new Vector2(knockBack.x * pseudoDirection, knockBack.y), ForceMode2D.Impulse);
         Lives--;
         if (Lives <= 0)
@@ -78,7 +77,6 @@ public class EntityManager : MonoBehaviour
         if (IsStunned) return;
         Vector2 direction = enemyPos - transform.position;
         float pseudoDirection = -Mathf.Sign(direction.x);
-        Debug.Log(pseudoDirection);
         rb.AddForce(new Vector2(data.selfStunKnockBackX * pseudoDirection, data.selfStunKnockBackY), ForceMode2D.Impulse);
         Lives--;
         if (Lives <= 0)

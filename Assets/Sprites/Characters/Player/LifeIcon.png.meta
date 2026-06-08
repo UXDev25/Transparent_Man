@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 6077a081b9dc0334aaa4a753c76fac4f
+guid: 0e3d5a29818e5904cb647a1d5d82e4fc
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 6468174369013329203
-    second: Bg_Sky 1_0
+      213: 362130879858646539
+    second: TransparentMan_Idle 1_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -40,13 +40,13 @@ TextureImporter:
     filterMode: 0
     aniso: 1
     mipBias: 0
-    wrapU: 0
-    wrapV: 0
-    wrapW: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -100,13 +100,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Bg_Sky 1_0
+      name: TransparentMan_Idle 1_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 700
-        height: 500
+        width: 11
+        height: 10
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -115,8 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 33d635a915293c950800000000000000
-      internalID: 6468174369013329203
+      spriteID: b0e9c28dd1c860500800000000000000
+      internalID: 362130879858646539
       vertices: []
       indices: 
       edges: []
@@ -125,7 +125,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 5e97eb03825dee720800000000000000
+    spriteID: 
     internalID: 0
     vertices: []
     indices: 
@@ -135,7 +135,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Bg_Sky 1_0: 6468174369013329203
+      TransparentMan_Idle 1_0: 362130879858646539
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

@@ -21,7 +21,6 @@ MonoBehaviour:
     m_Bits: 8
   groundMaskHash: Ground
   detectionRadius: 0.16
-  MaxRunSpeed: 12
   MaxWalkSpeed: 7
   acceleration: 25
   deceleration: 8
@@ -29,16 +28,16 @@ MonoBehaviour:
   jumpForce: 11
   coyoteTime: 0.15
   jumpBufferTime: 0.25
-  maxJumpAccum: 5
+  comboPunchKB: {x: 4, y: 2}
+  punchKB: {x: 10, y: 4}
   selfStunKnockBackX: 5
   selfStunKnockBackY: 3
   punchForwardForce: 2
-  comboPunchKB: {x: 4, y: 2}
-  punchKB: {x: 10, y: 4}
-  maxTimeAccum: 1
-  jumpMultAccum: 0.25
+  punchHitRetreat: 4
   ungroundTime: 0.5
   maxLives: 3
+  hitColor: {r: 1, g: 0, b: 0, a: 1}
+  hitColorDuration: 0.1
   wallRayCastSize: 0.5
   groundAndPlayerMask:
     serializedVersion: 2

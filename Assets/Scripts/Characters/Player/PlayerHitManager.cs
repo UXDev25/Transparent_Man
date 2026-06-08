@@ -44,7 +44,6 @@ public class PlayerHitManager : MonoBehaviour, IHitSystem
         IsAttacking = false;
         if (PunchCounter < 2)
         {
-            Debug.Log($"{PunchCounter} {_hitBoxOne.GetComponent<HitboxInfo>().KnockBack}");
             PunchCounter++;
         }
     }

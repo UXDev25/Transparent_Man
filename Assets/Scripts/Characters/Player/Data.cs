@@ -17,7 +17,6 @@ public class Data : ScriptableObject
     public float detectionRadius = 0.2f;
 
     [Header("EntityPhysics")]
-    public float MaxRunSpeed = 12;
     public float MaxWalkSpeed = 6;
     public float acceleration = 500f;
     public float deceleration = 340f;
@@ -25,19 +24,21 @@ public class Data : ScriptableObject
     public float jumpForce = 100;
     public float coyoteTime = 0.15f;
     public float jumpBufferTime = 0.15f;
-    public float maxJumpAccum = 5;
-    public float selfStunKnockBackX = 5;
-    public float selfStunKnockBackY = 3;
-    public float punchForwardForce = 2;
+    
 
     [Header("KnockBacks")]
     public Vector2 comboPunchKB = new Vector2(5, 3);
     public Vector2 punchKB = new Vector2(5, 3);
+    public float selfStunKnockBackX = 5;
+    public float selfStunKnockBackY = 3;
+    public float punchForwardForce = 2;
+    public float punchHitRetreat = 3.5f;
 
     [Header("Times & Cooldowns")]
-    public float maxTimeAccum = 1;
-    public float jumpMultAccum = 0.25f;
     public float ungroundTime = 0.5f;
+
+    [Header("UI")]
+    public float lifeUiSeparator = 20;
 
     [Header("Life And Others")]
     public int maxLives = 3;

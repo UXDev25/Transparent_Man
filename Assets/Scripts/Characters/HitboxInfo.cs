@@ -19,6 +19,8 @@ public class HitboxInfo : MonoBehaviour
     {
         if (collision.gameObject.tag == "Enemy") 
         {
+            PlayerManager player = gameObject.GetComponentInParent<PlayerManager>();
+            player.rb.AddForce(new Vector2(player.data.punchHitRetreat * -transform.parent.localScale.x, 0), ForceMode2D.Impulse);
             _audioManager.PlayHitSFX();
         }
     }

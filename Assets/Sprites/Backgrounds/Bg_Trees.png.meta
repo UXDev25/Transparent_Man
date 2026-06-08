@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 5bb9c20c06f9bcc4fbcb8e1de4717405
+guid: 71040fee81334734d9877b1b8f68dfca
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -3869652027294576928
-    second: Bg_Trees_0
+      213: 1324720376152856464
+    second: Bg_Sky (2)_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -48,7 +48,7 @@ TextureImporter:
   compressionQuality: 50
   spriteMode: 1
   spriteExtrude: 1
-  spriteMeshType: 1
+  spriteMeshType: 0
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
   spritePixelsToUnits: 16
@@ -100,12 +100,12 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Bg_Trees_0
+      name: Bg_Sky (2)_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 350
+        width: 700
         height: 150
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -115,8 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 0ee8cb4cbfb3c4ac0800000000000000
-      internalID: -3869652027294576928
+      spriteID: 0971057d92a526210800000000000000
+      internalID: 1324720376152856464
       vertices: []
       indices: 
       edges: []
@@ -135,7 +135,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Bg_Trees_0: -3869652027294576928
+      Bg_Sky (2)_0: 1324720376152856464
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

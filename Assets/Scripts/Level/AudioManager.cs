@@ -15,7 +15,6 @@ public class AudioManager : MonoBehaviour
     private void Start() 
     { 
         _stopMusic = false;
-        musicSource.clip = beggining;
         StartMusic();
     }
 
@@ -36,13 +35,15 @@ public class AudioManager : MonoBehaviour
     public void StartMusic() 
     {
         musicSource.Stop();
-        musicSource.PlayOneShot(beggining);
+        musicSource.clip = beggining;
+        musicSource.Play();
     }
 
     public void StartBigasMusic() 
     {
         musicSource.Stop();
-        musicSource.PlayOneShot(bigas);
+        musicSource.clip = bigas;
+        musicSource.Play();
     }
 
     public void PlayHitSFX() 

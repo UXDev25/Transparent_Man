@@ -17,7 +17,20 @@ public class PlayerManager : EntityManager
     public Vector2 actMove { get; private set; }
     public bool jumped { get; private set; }
     public float jumpBufferCounter { get; private set; }
-    
+    [SerializeField] private GameObject _lifePlace;
+    [SerializeField] private GameObject _lifeIconPrefab;
+
+    private int _lives;
+    public override int Lives { get => _lives;
+        protected set
+        {
+            if (_lives < value && _lives != 0) 
+            {
+                Destroy(_lifePlace.transform.GetChild(0).gameObject);
+            }
+        } 
+    }
+
     //Setters
     public void SetJumped(bool jumpedPar) => jumped = jumpedPar;
     public void SetCanPlay(bool canPlay) => CanPlay = canPlay;
@@ -41,6 +54,12 @@ public class PlayerManager : EntityManager
     }
     public void ResetPlayer()
     {
+        while (_lives <= data.maxLives) 
+        {
+            GameObject lifePref = Instantiate(_lifeIconPrefab, _lifePlace.transform);
+            RectTransform rectPrefTrans = lifePref.GetComponent<RectTransform>();
+            rectPrefTrans.position = new Vector3(rectPrefTrans.position.x + data.lifeUiSeparator, rectPrefTrans.position.y, rectPrefTrans.position.z);
+        }
         _audioManager.StartMusic();
         transform.position = spawnPoint.position;
         gameObject.layer = LayerMask.NameToLayer(data.LifeMaskHash);
@@ -177,6 +196,7 @@ public class PlayerManager : EntityManager
         EnemyManager enemy = collision.gameObject.GetComponent<EnemyManager>();   
         if (enemy != null && enemy.tag == "Enemy" && !IsStunned && !enemy.IsStunned)
         {
+            _audioManager.PlayHitSFX();
             ChangeHitColor();
             Stun(collision.gameObject.transform.position);
         }
