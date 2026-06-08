@@ -17,19 +17,7 @@ public class PlayerManager : EntityManager
     public Vector2 actMove { get; private set; }
     public bool jumped { get; private set; }
     public float jumpBufferCounter { get; private set; }
-    [SerializeField] private GameObject _lifePlace;
-    [SerializeField] private GameObject _lifeIconPrefab;
 
-    private int _lives;
-    public override int Lives { get => _lives;
-        protected set
-        {
-            if (_lives < value && _lives != 0) 
-            {
-                Destroy(_lifePlace.transform.GetChild(0).gameObject);
-            }
-        } 
-    }
 
     //Setters
     public void SetJumped(bool jumpedPar) => jumped = jumpedPar;
@@ -54,25 +42,17 @@ public class PlayerManager : EntityManager
     }
     public void ResetPlayer()
     {
-        int i = 0;
-        while (i <= data.maxLives) 
-        {
-            GameObject lifePref = Instantiate(_lifeIconPrefab, _lifePlace.transform);
-            RectTransform rectPrefTrans = lifePref.GetComponent<RectTransform>();
-            rectPrefTrans.position = new Vector3(rectPrefTrans.position.x + data.lifeUiSeparator, rectPrefTrans.position.y, rectPrefTrans.position.z);
-            i++;
-        }
+        Lives = data.maxLives;
         _audioManager.StartMusic();
         transform.position = spawnPoint.position;
         gameObject.layer = LayerMask.NameToLayer(data.LifeMaskHash);
-        Lives = data.maxLives;
         IsDead = EDeathState.Alive;
         CanPlay = true;
         IsStunned = false;
         deactivateGrounded = false;
         rb.simulated = true;
         GameManager.Instance.VCam.Follow = transform;
-        GameManager.Instance.ResetedGame = true;
+        GameManager.Instance.ResetGame();
     }
 
 

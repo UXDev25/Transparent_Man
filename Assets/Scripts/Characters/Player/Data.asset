@@ -35,7 +35,8 @@ MonoBehaviour:
   punchForwardForce: 2
   punchHitRetreat: 4
   ungroundTime: 0.5
-  maxLives: 3
+  lifeUiSeparator: 20
+  maxLives: 10
   hitColor: {r: 1, g: 0, b: 0, a: 1}
   hitColorDuration: 0.1
   wallRayCastSize: 0.5

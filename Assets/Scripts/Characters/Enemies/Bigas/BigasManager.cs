@@ -24,10 +24,19 @@ public class BigasManager : EnemyManager
         if (!IsStunned && !IsStomping) 
         {
             if (State == EBigasState.Walk || !IsGrounded) rb.linearVelocityX = data.MaxWalkSpeed * -transform.localScale.x;
-        } 
-
-        if (GameManager.Instance.ResetedGame) Lives = data.maxLives;
+        }
     }
+    private void OnEnable()
+    {
+        GameManager.OnGameReset += ResetLives;
+    }
+
+    private void OnDisable()
+    {
+        GameManager.OnGameReset -= ResetLives;
+    }
+
+    private void ResetLives() => Lives = data.maxLives;
 
     void PreJump()
     {
@@ -50,11 +59,6 @@ public class BigasManager : EnemyManager
             ChangeHitColor();
             Lives--;
             if (Lives == data.maxLives / 2 || Lives == data.maxLives / 4 || Lives <= 0) Stun(collision.gameObject.transform.position);
-        }
-
-        if (collision.gameObject.tag == "BigasArea")
-        {
-            transform.position = collision.gameObject.transform.position;
         }
     }
 }

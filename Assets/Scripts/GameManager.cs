@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
+    public static Action OnGameReset;
     public static GameManager Instance { get; private set; }
 
     [Header("References")]
@@ -36,6 +37,8 @@ public class GameManager : MonoBehaviour
         Time.timeScale = 1f;
         SearchForGameObject();
         ResetedGame = false;
+
+        OnGameReset?.Invoke();
     }
 
     private void Awake()
@@ -52,7 +55,6 @@ public class GameManager : MonoBehaviour
     private void Update()
     {
         if (Boss.IsDead == EDeathState.Dying) Win();
-        if (ResetedGame) ResetGame();
     }
 
     private void OnEnable()
@@ -80,10 +82,10 @@ public class GameManager : MonoBehaviour
 
     private void SearchForGameObject()
     {
-        // Busquem l'objecte pel tag
+
         GameObject foundObject = GameObject.FindWithTag(_tagSearch);
 
-        // 3. VALIDACIÓ I SEGURETAT (Per assegurar-nos al 100%)
+
         if (foundObject != null)
         {
             Boss = foundObject.GetComponentInChildren<EntityManager>();
@@ -91,7 +93,7 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            // Si és null, fem saltar un error vermell a la consola per saber exactament què ha anat malament
+
             Debug.LogError($"[GameManager] ERROR: No s'ha trobat cap objecte ACTIU amb el tag '{_tagSearch}' a l'escena '{_targetScene}'.");
         }
     }

@@ -8,7 +8,6 @@ public class BigasAi : MonoBehaviour
     private BigasManager _bigas;
     private readonly float SecondsBetweenAction = 3;
     private readonly float SecondsOfIdle = 1;
-    private int _actionIndex = 0;
     private bool _canChangeAction = true;
     void Start() 
     { 
