@@ -32,7 +32,7 @@ MonoBehaviour:
   maxJumpAccum: 5
   selfStunKnockBackX: 10
   selfStunKnockBackY: 10
-  punchForwardForce: 15
+  punchForwardForce: 25
   comboPunchKB: {x: 5, y: 3}
   punchKB: {x: 5, y: 3}
   maxTimeAccum: 1

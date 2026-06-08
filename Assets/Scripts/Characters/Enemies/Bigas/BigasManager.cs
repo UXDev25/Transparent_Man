@@ -25,6 +25,8 @@ public class BigasManager : EnemyManager
         {
             if (State == EBigasState.Walk || !IsGrounded) rb.linearVelocityX = data.MaxWalkSpeed * -transform.localScale.x;
         } 
+
+        if (GameManager.Instance.ResetedGame) Lives = data.maxLives;
     }
 
     void PreJump()

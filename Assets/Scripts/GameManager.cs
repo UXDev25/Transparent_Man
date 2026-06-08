@@ -26,6 +26,7 @@ public class GameManager : MonoBehaviour
 
     public bool PauseCharacter { get; private set; } = false;
     public EntityManager Boss { get; private set; }
+    public bool ResetedGame { get; set; }
 
     public void ResetGame() 
     {
@@ -33,6 +34,8 @@ public class GameManager : MonoBehaviour
         PreGameWon = false;
         PauseCharacter = false;
         Time.timeScale = 1f;
+        SearchForGameObject();
+        ResetedGame = false;
     }
 
     private void Awake()
@@ -49,6 +52,7 @@ public class GameManager : MonoBehaviour
     private void Update()
     {
         if (Boss.IsDead == EDeathState.Dying) Win();
+        if (ResetedGame) ResetGame();
     }
 
     private void OnEnable()
@@ -71,7 +75,6 @@ public class GameManager : MonoBehaviour
             {
                 Debug.LogWarning("[GameManager] Atenció: No s'ha trobat cap CinemachineCamera a l'escena.");
             }
-            SearchForGameObject();
         }
     }
 

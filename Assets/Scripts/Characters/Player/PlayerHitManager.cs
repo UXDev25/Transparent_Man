@@ -30,7 +30,7 @@ public class PlayerHitManager : MonoBehaviour, IHitSystem
 
     private void Combo() 
     { 
-        if (inputActionPunch.WasPressedThisFrame() && !IsAttacking && _playerManager.IsGrounded)
+        if (inputActionPunch.WasPressedThisFrame() && !IsAttacking && _playerManager.IsGrounded && !GameManager.Instance.PreGameWon)
         {
             _rb.linearVelocityX = 0;
             _playerManager.SetCanPlay(false);

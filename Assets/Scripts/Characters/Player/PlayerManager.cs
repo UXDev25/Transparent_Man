@@ -51,6 +51,7 @@ public class PlayerManager : EntityManager
         deactivateGrounded = false;
         rb.simulated = true;
         GameManager.Instance.VCam.Follow = transform;
+        GameManager.Instance.ResetedGame = true;
     }
 
 
@@ -186,7 +187,6 @@ public class PlayerManager : EntityManager
         if (collision.gameObject.CompareTag("BigasArea"))
         {
             _audioManager.StartBigasMusic();
-            Destroy(collision.gameObject);
         }
     }
 
